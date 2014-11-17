@@ -1,4 +1,4 @@
-deployment
+Deployment
 ==========
 
-General repository for deployment stuff. Mostly ansible.
+General repository for deployment stuff.

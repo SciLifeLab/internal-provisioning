@@ -1,0 +1,11 @@
+# Playbook to configure a new NAS in NGI production platform
+
+---
+- hosts: nas
+  # Switch to the production user in the NAS for all tasks to be executed
+  sudo_user: "{{ user }}"
+  sudo: yes
+  
+  tasks:
+    - name: Print current working directory
+      command: pwd
