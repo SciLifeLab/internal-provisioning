@@ -1,11 +1,13 @@
 # Playbook to configure a new NAS in NGI production platform
 
 ---
-- hosts: nas
+- hosts: test
+  #We really don't want to waste resources gathering facts (system information)
+  gather_facts: no
   # Switch to the production user in the NAS for all tasks to be executed
-  sudo_user: "{{ user }}"
+  sudo_user: hiseq.bioinfo
   sudo: yes
   
   tasks:
-    - name: Print current working directory
-      command: pwd
+    # Install miniconda python distribution
+    - include: ../../miniconda/tasks/main.yml
