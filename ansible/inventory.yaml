@@ -12,3 +12,6 @@ b5.biotech.kth.se
 #Define group variables
 [nas:vars]
 user=hiseq.bioinfo
+
+[test:vars]
+user=hiseq.bioinfo

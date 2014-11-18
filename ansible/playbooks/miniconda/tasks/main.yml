@@ -1,29 +1,30 @@
 ---
 # tasks file for miniconda
 - include_vars: ../defaults/main.yml
-- name: download miniconda installer
+
+- name: Download miniconda installer
   get_url:
     url={{ miniconda_installer.url }}/{{ miniconda_installer.file }}
     dest=/tmp/{{ miniconda_installer.file }}
     mode=0755
   register: miniconda_downloaded
 
-- name: install miniconda
+- name: Install miniconda
   command: '/tmp/{{ miniconda_installer.file }} -b -p {{ miniconda_path }}
       creates={{ miniconda_path }}'
   register: miniconda_installed
-  when: miniconda_downloaded|success
+  when: miniconda_downloaded | success
 
-- name: create miniconda environments
+- name: Create miniconda environments
   command: '{{ miniconda_path }}/bin/conda create --yes -n {{ item.name }} 
       python={{ item.python_version }}
       creates={{ miniconda_path }}/envs/{{ item.name }}'
-  when: miniconda_installed|success
+  when: miniconda_installed | success
   register: miniconda_venv_created
   with_items: miniconda_environments
 
 - name: update miniconda environment packages
   command: '{{ miniconda_path }}/bin/conda install --yes -n {{ item.name }} 
       {{ item.pkgs }}'
-  when: miniconda_venv_created|success
+  when: miniconda_venv_created | success
   with_items: miniconda_environments
