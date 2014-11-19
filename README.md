@@ -72,7 +72,7 @@ In order to deploy a new NAS, you just need to execute the `nas` playbook. Some
 Once this is clear:
 
 ```bash
-$> ansible-playbook ansible/playbooks/nas/tasks/nas.yaml -u <your_username> -i ansible/inventory.yaml
+$> ansible-playbook nas.yml -u <your_username> -i production
 ```
 
 This playbook will:
