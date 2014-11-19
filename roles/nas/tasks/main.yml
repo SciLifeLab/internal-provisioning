@@ -3,8 +3,14 @@
 # Tasks file for the role NAS #
 ###############################
 
-- name: Create config directory if it does not exist
-  file: path=/home/{{ user }}/config state=directory
+- name: Create directories if they don't not exist
+  file: path={{ item.dir }} state=directory
+  with_items:
+    - {dir: '/home/{{ user }}/config'}
+    - {dir: '/home/{{ user }}/.pm'}
+    - {dir: '/home/{{ user }}/.irods'}
+    - {dir: '{{ data_dir }}/hiseq_data/nosync'}
+    - {dir: '{{ data_dir }}/miseq_data/nosync'}
 
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
@@ -13,3 +19,17 @@
     - {template: 'lsyncd.j2', dest_dir: '/home/{{ user }}/config', dest: 'lsyncd.conf'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
+    - {template: 'pm.j2', dest_dir: '/home/{{ user }}/.pm', dest: 'pm.conf'}
+
+- name: Install code repositories from {{ code_dir }}
+  shell: source $HOME/.bash_profile && cd {{ item.repo }} && python setup.py install && cd ..
+  args:
+    chdir: "{{ code_dir }}"
+  with_items: to_install
+
+- name: Copy iRODS credentials
+  template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
+  with_items:
+    - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
+    - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/hiseq_data/nosync', dest: 'ssverify.key'}
+    - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/miseq_data/nosync', dest: 'ssverify.key'}
