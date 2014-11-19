@@ -1,0 +1,20 @@
+settings {
+       logfile    = "/home/{{ user }}/log/lsyncd.log",
+       statusFile = "/home/{{ user }}/log/lsyncd.status",
+       nodaemon   = true,
+}
+
+
+-- Sync HiSeq raw data
+sync{default.rsyncssh, source="/srv/illumina/hiseq_data", host="{{ dest_data }}", targetdir="/srv/illumina", exclude=".AppleDouble", exclude={"nosync", "gls_events"}, delete=false}
+
+-- Sync hiseq metadata to MFS partition
+sync{default.rsync, source="/srv/illumina/hiseq_data", target="/srv/mfs/hiseq_data", exclude={".AppleDouble","/nosync","*/Thumbnail_Images","*/Logs","*/Recipe","*/Config","*/PeriodicSaveRates","*/Data"}, delete=false}
+
+
+-- Sync MiSeq raw data
+sync{default.rsyncssh, source="/srv/illumina/miseq_data", host="{{ dest_data }}", targetdir="/srv/illumina/miseq_data", exclude=".AppleDouble", exclude={"nosync", "gls_events"}, delete=false}
+
+
+-- Sync Miseq metadata to MFS partition
+sync{default.rsync, source="/srv/illumina/miseq_data", target="/srv/mfs/miseq_data", exclude={".AppleDouble","/nosync","*/Thumbnail_Images","*/Logs","*/Recipe","*/Config","*/PeriodicSaveRates","*/Data"}, delete=false}

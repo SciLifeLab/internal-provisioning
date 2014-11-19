@@ -1,0 +1,7 @@
+[supervisord]
+logfile=/home/{{ user }}/log/supervisord.log
+pidfile=/home/{{ user }}/log/supervisord.pid
+
+[program:lsyncd]
+command=/usr/bin/lsyncd /home/{{ user }}/config/lsyncd.conf
+autorestart=true

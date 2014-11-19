@@ -1,0 +1,14 @@
+---
+###############################
+# Tasks file for the role NAS #
+###############################
+
+- name: Create config directory if it does not exist
+  file: path=/home/{{ user }}/config state=directory
+
+- name: Copy configuration files for different services (logrotate, lsyncd, etc.)
+  template: src={{ item.template }} dest=/home/{{ user }}/config/{{ item.dest }}
+  with_items:
+    - {template: 'logrotate.j2', dest: 'logrotate.conf'}
+    - {template: 'lsyncd.j2', dest: 'lsyncd.conf'}
+    - {template: 'supervisord.j2', dest: 'supervisord.conf'}

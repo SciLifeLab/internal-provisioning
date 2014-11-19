@@ -11,5 +11,5 @@
   sudo: yes
   
   roles:
-    # Install miniconda python distribution
     - miniconda
+    - nas
