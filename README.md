@@ -72,7 +72,7 @@ In order to deploy a new NAS, you just need to execute the `nas` playbook. Some
 Once this is clear:
 
 ```bash
-$> ansible-playbook nas.yml -u <your_username> -i production
+$> ansible-playbook nas.yml -u <your_username> -i production --ask-vault-pass
 ```
 
 This playbook will:
@@ -83,3 +83,4 @@ This playbook will:
 4. Install several repositories from `/srv/mfs/opt/`
 5. Configure cronjobs
 6. Start `supervisord`, which will start all necessary services
+7. Copy irods credentials and configure iCommands (credentials are encrypted using `ansible-vault`, ask... someone for the password)
