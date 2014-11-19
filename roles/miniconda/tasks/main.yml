@@ -1,6 +1,5 @@
 ---
 # tasks file for miniconda
-- include_vars: ../defaults/main.yml
 
 - name: Download miniconda installer
   get_url:

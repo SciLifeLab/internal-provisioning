@@ -1,0 +1,16 @@
+#########################################
+# Inventory file for production servers #
+#########################################
+
+[nas]
+seq-nas-[1:3].scilifelab.se 
+nas-[6:7].scilifelab.se
+
+[processing]
+b5.biotech.kth.se
+
+[lims]
+genologics.scilifelab.se
+
+[web]
+tools.scilifelab.se

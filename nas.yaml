@@ -1,4 +1,6 @@
-# Playbook to configure a new NAS in NGI production platform
+##############################################################
+# Playbook to configure a new NAS in NGI production platform #
+##############################################################
 
 ---
 - hosts: test
@@ -8,6 +10,6 @@
   sudo_user: '{{ user }}'
   sudo: yes
   
-  tasks:
+  roles:
     # Install miniconda python distribution
-    - include: ../../miniconda/tasks/main.yml
+    - miniconda
