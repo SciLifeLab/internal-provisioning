@@ -78,3 +78,8 @@ $> ansible-playbook nas.yml -u <your_username> -i production
 This playbook will:
 
 1. Install `miniconda` and create a virtual environment called `master` with all needed dependencies
+2. Create `config` directory and put there all configuration files
+3. Create `log` directory
+4. Install several repositories from `/srv/mfs/opt/`
+5. Configure cronjobs
+6. Start `supervisord`, which will start all necessary services
