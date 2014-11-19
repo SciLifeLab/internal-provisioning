@@ -10,4 +10,4 @@ miniconda_path: '~/.miniconda'
 miniconda_environments:
   - name: master
     python_version: 2.7
-    pkgs: 'pip numpy biopython ipython'
+    pkgs: 'pip ipython numpy cython biopython lxml pil pillow tornado pysam pyzmq pycrypto matplotlib pysam'
