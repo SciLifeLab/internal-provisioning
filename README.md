@@ -18,6 +18,11 @@ __NOTE__: The following assume you have ansible installed in your machine, if no
 $> sudo pip install ansible
 ```
 
+## Create a testing environment
+You don't want to mess around the production servers until you are sure that everything
+works, don't you? Okay that's easy to solve: just create a virtual mini-cluster
+using vagrant and configure it [like this](http://hakunin.com/six-ansible-practices#build-a-convenient-local-playground)
+
 ## Deploying a new NAS
 In order to deploy a new NAS, you just need to execute the `nas` playbook. Some 
 *important* considerations before doing that are:
