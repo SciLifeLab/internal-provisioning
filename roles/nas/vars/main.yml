@@ -1,2 +1,6 @@
 # Vars file for the NAS role
 dest_data: b5.biotech.kth.se
+
+to_install:
+  - repo: scilifelab
+  - repo: genologics

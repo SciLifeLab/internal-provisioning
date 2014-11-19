@@ -7,8 +7,9 @@
   file: path=/home/{{ user }}/config state=directory
 
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
-  template: src={{ item.template }} dest=/home/{{ user }}/config/{{ item.dest }}
+  template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
-    - {template: 'logrotate.j2', dest: 'logrotate.conf'}
-    - {template: 'lsyncd.j2', dest: 'lsyncd.conf'}
-    - {template: 'supervisord.j2', dest: 'supervisord.conf'}
+    - {template: 'logrotate.j2', dest_dir: '/home/{{ user }}/config', dest: 'logrotate.conf'}
+    - {template: 'lsyncd.j2', dest_dir: '/home/{{ user }}/config', dest: 'lsyncd.conf'}
+    - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
+    - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
