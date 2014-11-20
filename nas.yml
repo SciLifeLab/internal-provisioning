@@ -4,8 +4,6 @@
 
 ---
 - hosts: test
-  #We really don't want to waste resources gathering facts (system information)
-  gather_facts: no
   # Switch to the production user in the NAS for all tasks to be executed
   sudo_user: '{{ user }}'
   sudo: yes
