@@ -7,6 +7,7 @@
   file: path={{ item.dir }} state=directory
   with_items:
     - {dir: '/home/{{ user }}/config'}
+    - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.pm'}
     - {dir: '/home/{{ user }}/.irods'}
     - {dir: '{{ data_dir }}/hiseq_data/nosync'}
@@ -26,7 +27,7 @@
 
 
 - name: Install code repositories from {{ code_dir }}
-  shell: source $HOME/.bash_profile && cd {{ item.repo }} && python setup.py install && cd ..
+  shell: source $HOME/.bash_profile && cd {{ item.repo }} && python setup.py install
   args:
     chdir: "{{ code_dir }}"
   with_items: to_install
@@ -74,3 +75,7 @@
 - name: Cronjob to send finished runs to swestore (MiSeq)
   cron: name="Send MiSeq finished runs to Swestore" special_time=daily
         job="source ~/.bash_profile && cd {{ data_dir }}/miseq_data/nosync && bash archive.sh 2>&1 /dev/null"
+
+
+- name: Start supervisord
+  shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf
