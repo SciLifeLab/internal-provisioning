@@ -10,7 +10,9 @@
     - {dir: '/home/{{ user }}/.pm'}
     - {dir: '/home/{{ user }}/.irods'}
     - {dir: '{{ data_dir }}/hiseq_data/nosync'}
+    - {dir: '{{ data_dir }}/hiseq_data/nosync/archived'}
     - {dir: '{{ data_dir }}/miseq_data/nosync'}
+    - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
@@ -33,3 +35,9 @@
     - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
     - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/hiseq_data/nosync', dest: 'ssverify.key'}
     - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/miseq_data/nosync', dest: 'ssverify.key'}
+
+- name: Copy needed files
+  copy: src={{ item.file }} dest={{ item.dest_dir }}/{{ item.dest }} mode=0766
+  with_items:
+    - {file: 'archive.sh', dest_dir: '{{ data_dir }}/hiseq_data/nosync', dest: 'archive.sh'}
+    - {file: 'archive.sh', dest_dir: '{{ data_dir }}/miseq_data/nosync', dest: 'archive.sh'}
