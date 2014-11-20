@@ -14,6 +14,7 @@
     - {dir: '{{ data_dir }}/miseq_data/nosync'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
+
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
@@ -23,11 +24,13 @@
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
     - {template: 'pm.j2', dest_dir: '/home/{{ user }}/.pm', dest: 'pm.conf'}
 
+
 - name: Install code repositories from {{ code_dir }}
   shell: source $HOME/.bash_profile && cd {{ item.repo }} && python setup.py install && cd ..
   args:
     chdir: "{{ code_dir }}"
   with_items: to_install
+
 
 - name: Copy iRODS credentials
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
@@ -36,8 +39,38 @@
     - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/hiseq_data/nosync', dest: 'ssverify.key'}
     - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/miseq_data/nosync', dest: 'ssverify.key'}
 
+
 - name: Copy needed files
   copy: src={{ item.file }} dest={{ item.dest_dir }}/{{ item.dest }} mode=0766
   with_items:
     - {file: 'archive.sh', dest_dir: '{{ data_dir }}/hiseq_data/nosync', dest: 'archive.sh'}
     - {file: 'archive.sh', dest_dir: '{{ data_dir }}/miseq_data/nosync', dest: 'archive.sh'}
+
+
+- name: Cronjob to start supervisord
+  cron: name="Start supervisord on reboot" special_time=reboot
+        job="/usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf"
+
+- name: Cronjob to run logrotate
+  cron: name="Run logrotate hourly" special_time=hourly
+        job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"
+
+- name: Cronjob to move files to MFS (HiSeq data)
+  cron: name="Move files to MFS (HiSeq data)"
+        job="mv {{ data_dir}}/hiseq_data/gls_events/*.txt /srv/mfs/hiseq_data/gls_events/ &> /dev/null; chgrp hiseq /srv/mfs/hiseq_data/gls_events/* &> /dev/null; chmod g+rw /srv/mfs/hiseq_data/gls_events/* &> /dev/null"
+
+- name: Cronjob to move files to MFS (MiSeq data)
+  cron: name="Move files to MFS (MiSeq data)"
+        job="mv {{ data_dir}}/miseq_data/gls_events/*.txt /srv/mfs/miseq_data/gls_events/ &> /dev/null; chgrp hiseq /srv/mfs/miseq_data/gls_events/* &> /dev/null; chmod g+rw /srv/mfs/miseq_data/gls_events/* &> /dev/null"
+
+- name: Cronjob to cleanup
+  cron: name="Trigger automatic cleanup" minute="0" hour="4"
+        job="0 4 * * * source ~/.bash_profile && pm production storage-cleanup"
+
+- name: Cronjob to send finished runs to swestore (HiSeq)
+  cron: name="Send HiSeq finished runs to Swestore" special_time=daily
+        job="source ~/.bash_profile && cd {{ data_dir }}/hiseq_data/nosync && bash archive.sh 2>&1 /dev/null"
+
+- name: Cronjob to send finished runs to swestore (MiSeq)
+  cron: name="Send MiSeq finished runs to Swestore" special_time=daily
+        job="source ~/.bash_profile && cd {{ data_dir }}/miseq_data/nosync && bash archive.sh 2>&1 /dev/null"
