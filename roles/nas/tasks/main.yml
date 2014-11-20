@@ -31,6 +31,8 @@
   args:
     chdir: "{{ code_dir }}"
   with_items: to_install
+  # Some packages do not return a standard linux success code (0), but are properly installed anyway
+  ignore_errors: yes
 
 
 - name: Copy iRODS credentials
