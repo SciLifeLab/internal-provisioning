@@ -4,7 +4,7 @@
 
 ---
 - hosts: processing
-  # Switch to the production user in the NAS for all tasks to be executed
+  # Switch to the production user in the Processing server for all tasks to be executed
   sudo_user: '{{ user }}'
   sudo: yes
 
