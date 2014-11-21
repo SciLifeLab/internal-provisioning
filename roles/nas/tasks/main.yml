@@ -14,9 +14,7 @@
     - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.pm'}
     - {dir: '/home/{{ user }}/.irods'}
-    - {dir: '{{ data_dir }}/hiseq_data/nosync'}
     - {dir: '{{ data_dir }}/hiseq_data/nosync/archived'}
-    - {dir: '{{ data_dir }}/miseq_data/nosync'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
 
