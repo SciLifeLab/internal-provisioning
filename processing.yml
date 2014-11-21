@@ -7,7 +7,7 @@
   # Switch to the production user in the NAS for all tasks to be executed
   sudo_user: '{{ user }}'
   sudo: yes
-  
+
   roles:
     - miniconda
     - processing
