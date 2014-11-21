@@ -1,0 +1,13 @@
+#########################################################################
+# Playbook to deploy a new processing server in NGI production platform #
+#########################################################################
+
+---
+- hosts: processing
+  # Switch to the production user in the NAS for all tasks to be executed
+  sudo_user: '{{ user }}'
+  sudo: yes
+  
+  roles:
+    - miniconda
+    - processing
