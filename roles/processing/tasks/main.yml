@@ -1,0 +1,15 @@
+---
+#############################################
+# Tasks file for the role Processing Server #
+#############################################
+
+- name: Create ssh-key if it does not exist yet
+  user: name={{ user }} generate_ssh_key=yes ssh_key_bits=2048
+
+
+- name: Create necessary directories
+  file: path={{ item.dir }} state=directory
+  with_items:
+    - {dir: '/home/{{ user }}/opt'}
+    - {dir: '{{ data_dir }}/hiseq_data'}
+    - {dir: '{{ data_dir }}/miseq_data'}

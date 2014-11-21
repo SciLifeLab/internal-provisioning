@@ -64,9 +64,9 @@ using vagrant and configure it [like this](http://hakunin.com/six-ansible-practi
 
 ## Deploying a new NAS
 In order to deploy a new NAS, you just need to execute the `nas` playbook. Some 
-*important* considerations before doing that are:
+**important** considerations before doing that are:
 
-* You need to be able to paswordless ssh into the NAS
+* You need to be able to ssh paswordless into the NAS
 * You need permission to `sudo` to the production user, i.e `hiseq.bioinfo`
 
 Once this is clear:
@@ -84,3 +84,21 @@ This playbook will:
 5. Configure cronjobs
 6. Start `supervisord`, which will start all necessary services
 7. Copy irods credentials and configure iCommands (credentials are encrypted using `ansible-vault`, ask... someone for the password)
+
+
+## Deploying a new processing server
+
+To deploy a new processing server, execute the `processing` playbook. Same **important**
+considerations from the nas need to be taken when deploying a processing server.
+
+```bash
+$> ansible-playbook processing.yml -u <your_username> -i production
+```
+
+This playbook will:
+
+* Create a public ssh key if not present
+* Install miniconda and create a virtual environment called master
+* Create necessary directories
+* Install CASAVA 2.5 under ~/opt
+* Copy necessary files
