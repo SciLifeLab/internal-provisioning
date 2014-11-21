@@ -1,0 +1,7 @@
+---
+########################################
+# Vars file for Processing Server role #
+########################################
+
+user: hiseq.bioinfo
+data_dir: /srv/illumina
