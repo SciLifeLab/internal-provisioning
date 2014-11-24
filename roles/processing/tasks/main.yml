@@ -1,0 +1,45 @@
+---
+#############################################
+# Tasks file for the role Processing Server #
+#############################################
+
+- name: Create ssh-key if it does not exist yet
+  user: name={{ user }} generate_ssh_key=yes ssh_key_bits=2048
+
+
+- name: Create necessary directories
+  file: path={{ item.dir }} state=directory
+  with_items:
+    - {dir: '/home/{{ user }}/opt'}
+    - {dir: '{{ data_dir }}/hiseq_data/nosync/archived'}
+    - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
+
+
+# Download, unpack and install bcl2fastq
+- name: Download bcl2fastq
+  get_url: 
+    url={{ bcl2fastq_url }}
+    dest=/tmp/{{ bcl2fastq_package }}
+
+- name: Unpack {{ bcl2fastq_package }}
+  shell: tar xzf {{ bcl2fastq_package }}
+  args:
+    chdir: /tmp
+
+- name: Create build directory for bcl2fastq
+  file: path={{ bcl2fastq_build_dir}} state=directory
+
+- name: Configure bcl2fastq
+  shell: /tmp/bcl2fastq/src/configure --prefix={{ bcl2fastq_install_dir }}
+  args:
+    chdir: '{{ bcl2fastq_build_dir }}'
+
+- name: Make and install bcl2fastq
+  shell: make && make install
+  args:
+    chdir: '{{ bcl2fastq_build_dir }}'
+
+- name: Copy configuration files for different services
+  template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
+  with_items:
+    - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
