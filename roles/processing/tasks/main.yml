@@ -11,11 +11,10 @@
   file: path={{ item.dir }} state=directory
   with_items:
     - {dir: '/home/{{ user }}/opt'}
+    - {dir: '/home/{{ user }}/config'}
     - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
-
-# Download, unpack and install bcl2fastq
 - name: Download bcl2fastq
   get_url: 
     url={{ bcl2fastq_url }}
@@ -43,3 +42,7 @@
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
+    - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
+
+- name: Start supervisord process
+  shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf

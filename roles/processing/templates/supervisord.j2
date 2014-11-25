@@ -1,0 +1,7 @@
+[supervisord]
+logfile=/home/{{ user }}/log/supervisord.log
+pidfile=/home/{{ user }}/log/supervisord.pid
+
+[program:ssh]
+command=/usr/bin/ssh -f {{ remote_user }}@{{ remote_host }} -L {{ source_port }}:{{ remote_host }}:{{ remote_port }} -N
+autorestart=true
