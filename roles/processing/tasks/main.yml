@@ -12,6 +12,7 @@
   with_items:
     - {dir: '/home/{{ user }}/opt'}
     - {dir: '/home/{{ user }}/config'}
+    - {dir: '/home/{{ user }}/log'}
     - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
