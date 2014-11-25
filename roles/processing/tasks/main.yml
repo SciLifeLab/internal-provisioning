@@ -11,7 +11,7 @@
   file: path={{ item.dir }} state=directory
   with_items:
     - {dir: '/home/{{ user }}/opt'}
-    - {dir: '{{ data_dir }}/hiseq_data/nosync/archived'}
+    - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
 
