@@ -9,7 +9,7 @@ settings {
 sync{default.rsyncssh, source="{{ data_dir }}/HiSeq_X_data", host="{{ dest_data }}", targetdir="{{ data_dir }}/HiSeq_X_data", exclude=".AppleDouble", exclude={"nosync", "gls_events"}, delete=false}
 
 -- Sync hiseq metadata to MFS partition
-sync{default.rsync, source="{{ data_dir }}/HiSeq_X_data", target="/srv/mfs/HiSeq_X_data", exclude={".AppleDouble","/nosync","*/Thumbnail_Images","*/Logs","*/Recipe","*/Config","*/PeriodicSaveRates","*/Data"}, delete=false}
+sync{default.rsync, source="{{ data_dir }}/hiseq_data", target="/srv/mfs/HiSeq_X_data", exclude={".AppleDouble","/nosync","*/Thumbnail_Images","*/Logs","*/Recipe","*/Config","*/PeriodicSaveRates","*/Data"}, delete=false}
 
 
 -- Sync MiSeq raw data

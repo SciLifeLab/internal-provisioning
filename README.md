@@ -92,7 +92,7 @@ To deploy a new processing server, execute the `processing` playbook. Same **imp
 considerations from the nas need to be taken when deploying a processing server.
 
 ```bash
-$> ansible-playbook processing.yml -u <your_username> -i production
+$> ansible-playbook processing.yml -u <your_username> -i production --ask-vault-pass
 ```
 
 This playbook will:
