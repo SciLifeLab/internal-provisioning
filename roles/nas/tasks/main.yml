@@ -60,14 +60,6 @@
   cron: name="Run logrotate hourly" special_time=hourly
         job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"
 
-- name: Cronjob to move files to MFS (HiSeq data)
-  cron: name="Move files to MFS (HiSeq data)"
-        job="mv {{ data_dir}}/hiseq_data/gls_events/*.txt /srv/mfs/hiseq_data/gls_events/ &> /dev/null; chgrp hiseq /srv/mfs/hiseq_data/gls_events/* &> /dev/null; chmod g+rw /srv/mfs/hiseq_data/gls_events/* &> /dev/null"
-
-- name: Cronjob to move files to MFS (MiSeq data)
-  cron: name="Move files to MFS (MiSeq data)"
-        job="mv {{ data_dir}}/miseq_data/gls_events/*.txt /srv/mfs/miseq_data/gls_events/ &> /dev/null; chgrp hiseq /srv/mfs/miseq_data/gls_events/* &> /dev/null; chmod g+rw /srv/mfs/miseq_data/gls_events/* &> /dev/null"
-
 - name: Cronjob to cleanup
   cron: name="Trigger automatic cleanup" minute="0" hour="4"
         job="0 4 * * * source ~/.bash_profile && pm production storage-cleanup"
