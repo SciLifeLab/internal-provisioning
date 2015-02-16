@@ -4,7 +4,7 @@
 
 [nas]
 seq-nas-[1:3].scilifelab.se 
-nas-[6:7].scilifelab.se
+nas-[6:9].scilifelab.se
 
 [processing]
 b5.biotech.kth.se
