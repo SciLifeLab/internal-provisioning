@@ -6,15 +6,15 @@ settings {
 
 
 -- Sync HiSeq raw data
-sync{default.rsyncssh, source="{{ data_dir }}/HiSeq_X_data", host="{{ dest_data }}", targetdir="{{ data_dir }}/HiSeq_X_data", exclude=".AppleDouble", exclude={"nosync", "gls_events"}, delete=false}
+sync{default.rsyncssh, source="{{ data_dir }}/HiSeq_X_data", host="{{ dest_data }}", targetdir="{{ data_dir }}/HiSeq_X_data", exclude=".AppleDouble", exclude={"nosync", "gls_events", "gls_events_hiseqx"}, delete=false}
 
 -- Sync hiseq metadata to MFS partition
-sync{default.rsync, source="{{ data_dir }}/hiseq_data", target="/srv/mfs/HiSeq_X_data", exclude={".AppleDouble","/nosync", "gls_events","*/Thumbnail_Images","*/Logs","*/Recipe","*/Config","*/PeriodicSaveRates","*/Data"}, delete=false}
+sync{default.rsync, source="{{ data_dir }}/hiseq_data", target="/srv/mfs/HiSeq_X_data", exclude={".AppleDouble","/nosync", "gls_events", "gls_events_hiseqx", "*/Thumbnail_Images","*/Logs","*/Recipe","*/Config","*/PeriodicSaveRates","*/Data"}, delete=false}
 
 
 -- Sync MiSeq raw data
-sync{default.rsyncssh, source="{{ data_dir }}/miseq_data", host="{{ dest_data }}", targetdir="{{ data_dir }}/miseq_data", exclude=".AppleDouble", exclude={"nosync", "gls_events"}, delete=false}
+sync{default.rsyncssh, source="{{ data_dir }}/miseq_data", host="{{ dest_data }}", targetdir="{{ data_dir }}/miseq_data", exclude=".AppleDouble", exclude={"nosync", "gls_events", "gls_events_hiseqx"}, delete=false}
 
 
 -- Sync Miseq metadata to MFS partition
-sync{default.rsync, source="{{ data_dir }}/miseq_data", target="/srv/mfs/miseq_data", exclude={".AppleDouble","/nosync", "gls_events", */Thumbnail_Images","*/Logs","*/Recipe","*/Config","*/PeriodicSaveRates","*/Data"}, delete=false}
+sync{default.rsync, source="{{ data_dir }}/miseq_data", target="/srv/mfs/miseq_data", exclude={".AppleDouble","/nosync", "gls_events", "gls_events_hiseqx", "*/Thumbnail_Images", "*/Logs", "*/Recipe", "*/Config", "*/PeriodicSaveRates", "*/Data"}, delete=false}

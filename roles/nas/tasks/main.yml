@@ -12,10 +12,10 @@
   with_items:
     - {dir: '/home/{{ user }}/config'}
     - {dir: '/home/{{ user }}/log'}
-    - {dir: '/home/{{ user }}/.pm'}
+    - {dir: '/home/{{ user }}/.taca'}
     - {dir: '/home/{{ user }}/.irods'}
-    - {dir: '{{ data_dir }}/hiseq_data/nosync/archived'}
-    - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
+    - {dir: '{{ data_dir }}/hiseq_data/nosync/'}
+    - {dir: '{{ data_dir }}/miseq_data/nosync/'}
 
 
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
@@ -25,7 +25,7 @@
     - {template: 'lsyncd.j2', dest_dir: '/home/{{ user }}/config', dest: 'lsyncd.conf'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
-    - {template: 'pm.j2', dest_dir: '/home/{{ user }}/.pm', dest: 'pm.conf'}
+    - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.conf'}
 
 
 - name: Install code repositories from {{ code_dir }}
@@ -41,15 +41,6 @@
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
     - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
-    - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/hiseq_data/nosync', dest: 'ssverify.key'}
-    - {template: 'ssverifykey.j2', dest_dir: '{{ data_dir }}/miseq_data/nosync', dest: 'ssverify.key'}
-
-
-- name: Copy needed files
-  copy: src={{ item.file }} dest={{ item.dest_dir }}/{{ item.dest }} mode=0766
-  with_items:
-    - {file: 'archive.sh', dest_dir: '{{ data_dir }}/hiseq_data/nosync', dest: 'archive.sh'}
-    - {file: 'archive.sh', dest_dir: '{{ data_dir }}/miseq_data/nosync', dest: 'archive.sh'}
 
 
 - name: Cronjob to start supervisord
@@ -62,15 +53,11 @@
 
 - name: Cronjob to cleanup
   cron: name="Trigger automatic cleanup" minute="0" hour="4"
-        job="0 4 * * * source ~/.bash_profile && pm production storage-cleanup"
+        job="0 4 * * * source ~/.bash_profile && taca storage --days 2 cleanup --site nas"
 
-- name: Cronjob to send finished runs to swestore (HiSeq)
+- name: Cronjob to send finished runs to swestore
   cron: name="Send HiSeq finished runs to Swestore" special_time=daily
-        job="source ~/.bash_profile && cd {{ data_dir }}/hiseq_data/nosync && bash archive.sh 2>&1 /dev/null"
-
-- name: Cronjob to send finished runs to swestore (MiSeq)
-  cron: name="Send MiSeq finished runs to Swestore" special_time=daily
-        job="source ~/.bash_profile && cd {{ data_dir }}/miseq_data/nosync && bash archive.sh 2>&1 /dev/null"
+        job="0 5 * * * source ~/.bash_profile && taca storage --days 2 archive --backend swestore"
 
 
 - name: Start supervisord

@@ -1,7 +1,7 @@
 #Ansible playbooks
 
 This reposiory contains playbooks to deploy the infrastructure at National Genomics
-Infrastructure. 
+Infrastructure.
 
 Please refer to [ansible documentation](http://docs.ansible.com/) for more details
 about Ansible concepts and how it works.
@@ -63,7 +63,7 @@ works, don't you? Okay that's easy to solve: just create a virtual mini-cluster
 using vagrant and configure it [like this](http://hakunin.com/six-ansible-practices#build-a-convenient-local-playground)
 
 ## Deploying a new NAS
-In order to deploy a new NAS, you just need to execute the `nas` playbook. Some 
+In order to deploy a new NAS, you just need to execute the `nas` playbook. Some
 **important** considerations before doing that are:
 
 * You need to be able to ssh paswordless into the NAS
@@ -75,12 +75,16 @@ Once this is clear:
 $> ansible-playbook nas.yml -u <your_username> -i production --ask-vault-pass
 ```
 
+ There is 1 variables defined in the role vars file that you _may_ want to replace:
+`dest_data`. This variable defines the processing server where the data is going to be synched. You can
+override it by adding `--extra-vars '{"dest_data": "<value>"}'`
+
 This playbook will:
 
 1. Install `miniconda` and create a virtual environment called `master` with all needed dependencies
 2. Create `config` directory and put there all configuration files
 3. Create `log` directory
-4. Install several repositories from `/srv/mfs/opt/`
+4. Install several repositories all needed code repositories
 5. Configure cronjobs
 6. Start `supervisord`, which will start all necessary services
 7. Copy irods credentials and configure iCommands (credentials are encrypted using `ansible-vault`, ask... someone for the password)

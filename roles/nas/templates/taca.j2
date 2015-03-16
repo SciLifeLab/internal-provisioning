@@ -1,0 +1,12 @@
+log:
+    log_file: /home/{{ user }}/log/taca.log
+
+storage:
+    data_dirs:
+        - {{ data_dir }}/hiseq_data
+        - {{ data_dir }}/miseq_data
+    archive_dirs:
+        - {{ data_dir }}/hiseq_data/nosync
+        - {{ data_dir }}/miseq_data/nosync
+    irods:
+        irodsHome: /ssUppnexZone/proj/a2010002
