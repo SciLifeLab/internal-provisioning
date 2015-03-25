@@ -5,6 +5,7 @@
 [nas]
 seq-nas-[1:3].scilifelab.se 
 nas-[6:9].scilifelab.se
+comicbookguy.scilifelab.se
 
 [processing]
 b5.biotech.kth.se
