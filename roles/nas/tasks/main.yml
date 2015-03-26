@@ -53,11 +53,11 @@
 
 - name: Cronjob to cleanup
   cron: name="Trigger automatic cleanup" minute="0" hour="4"
-        job="0 4 * * * source ~/.bash_profile && taca storage --days 2 cleanup --site nas"
+        job="0 0 * * * source ~/.bashrc && taca storage --days 3 cleanup --site nas"
 
 - name: Cronjob to send finished runs to swestore
   cron: name="Send HiSeq finished runs to Swestore" special_time=daily
-        job="0 5 * * * source ~/.bash_profile && taca storage --days 2 archive --backend swestore"
+        job="0 1 * * * source ~/.bashrc && taca storage --days 10 archive --backend swestore --max-runs 4"
 
 
 - name: Start supervisord

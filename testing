@@ -1,7 +1,0 @@
-##############################
-# Inventory file for testing #
-##############################
-
-# For testing, create a Vagrant VM ans assign it the following IP
-[test]
-192.168.33.10
