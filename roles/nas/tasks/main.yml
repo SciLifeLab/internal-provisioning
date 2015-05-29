@@ -15,6 +15,7 @@
     - {dir: '/home/{{ user }}/.taca'}
     - {dir: '/home/{{ user }}/.irods'}
     - {dir: '{{ data_dir }}/hiseq_data/Runs/nosync/'}
+    - {dir: '{{ data_dir }}/miseq_data/nosync/'}
 
 
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
@@ -24,7 +25,7 @@
     - {template: 'lsyncd.j2', dest_dir: '/home/{{ user }}/config', dest: 'lsyncd.conf'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
-    - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.conf'}
+    - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
 
 
 - name: Install code repositories from {{ code_dir }}
