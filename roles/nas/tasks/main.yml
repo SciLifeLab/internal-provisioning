@@ -14,8 +14,7 @@
     - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.taca'}
     - {dir: '/home/{{ user }}/.irods'}
-    - {dir: '{{ data_dir }}/hiseq_data/nosync/'}
-    - {dir: '{{ data_dir }}/miseq_data/nosync/'}
+    - {dir: '{{ data_dir }}/hiseq_data/Runs/nosync/'}
 
 
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
