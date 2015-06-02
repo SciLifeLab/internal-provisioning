@@ -8,6 +8,9 @@
   sudo_user: '{{ user }}'
   sudo: yes
 
+  vars:
+    miniconda_url: '~/.miniconda'
+
   roles:
-    - miniconda
+    - robinandeer.miniconda
     - processing

@@ -11,8 +11,7 @@ NO_COLOUR="\[\033[0m\]"
 
 PS1="$NO_COLOUR\u@\h$NO_COLOUR:\w$YELLOW\$(parse_git_branch)$NO_COLOUR\$ "
 
+# Add miniconda to the path
+export PATH="{{ miniconda_home }}/bin:$PATH"
 
-# added by Anaconda 1.8.0 installer
-export PATH="/home/{{ user }}/.miniconda/bin:$PATH"
-
-source activate master &> /dev/null
+source activate prod &> /dev/null
