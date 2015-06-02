@@ -11,11 +11,7 @@ NO_COLOUR="\[\033[0m\]"
 
 PS1="$NO_COLOUR\u@\h$NO_COLOUR:\w$YELLOW\$(parse_git_branch)$NO_COLOUR\$ "
 
+# Add miniconda and bcl2fastq to the path
+export PATH="{{ miniconda_home }}/bin:${PATH}:{{ bcl2fastq_install_dir }}/bin"
 
-# added by Anaconda 1.8.0 installer
-export PATH="/home/{{ user }}/.miniconda/bin:$PATH"
-
-# Add bcl2fastq to the path
-export PATH=$PATH:{{ bcl2fastq_install_dir }}/bin
-
-source activate master &> /dev/null
+source activate prod &> /dev/null

@@ -7,7 +7,10 @@
   # Switch to the production user in the NAS for all tasks to be executed
   sudo_user: '{{ user }}'
   sudo: yes
+
+  vars:
+    miniconda_home: '~/.miniconda'
   
   roles:
-    - miniconda
+    - robinandeer.miniconda
     - nas

@@ -1,4 +1,4 @@
-#Ansible playbooks
+# Ansible playbooks
 
 This reposiory contains playbooks to deploy the infrastructure at National Genomics
 Infrastructure.
@@ -55,6 +55,7 @@ __NOTE__: The following assume you have ansible installed in your machine, if no
 
 ```bash
 $> sudo pip install ansible
+$> ansible-galaxy install robinandeer.miniconda
 ```
 
 ### Create a testing environment
