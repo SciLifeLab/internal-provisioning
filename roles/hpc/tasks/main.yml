@@ -4,8 +4,6 @@
 # Tasks file for the role hpc #
 ###############################
 
-#- name: Create ssh-key if it does not exist yet
-#  user: name={{ user }} generate_ssh_key=yes ssh_key_bits=2048
 
 - name: Create directories if they don't not exist
   file: path={{ item.dir }} state=directory

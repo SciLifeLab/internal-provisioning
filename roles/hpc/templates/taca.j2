@@ -1,0 +1,27 @@
+log:
+    log_file: /home/{{ user }}/log/taca.log
+
+storage:
+    data_dirs:
+        - /srv/illumina/hiseq_data
+        - /srv/illumina/miseq_data
+    archive_dirs:
+        - /srv/illumina/hiseq_data/nosync
+        - /srv/illumina/miseq_data/nosync
+    irods:
+        irodsHome: /ssUppnexZone/proj/{{ data_group }}
+
+cleanup:
+    archive:
+        root: /proj/{{ data_group }}/archive
+        days: 480
+    illumina:
+        root: /proj/{{ data_group }}/nobackup/illumina 
+        days: 180
+    analysis:
+        root: /proj/{{ bp_group }}/private/nobackup/projects 
+        days: 180
+    swestore:
+        root: /ssUppnexZone/proj/{{ data_group }}
+        days: 480
+    deleted_log: delivered_and_deleted

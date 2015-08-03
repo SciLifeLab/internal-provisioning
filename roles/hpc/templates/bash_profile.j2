@@ -1,0 +1,17 @@
+#Set up umask so created files/directories are read/writeable by group
+umask 007
+
+# added by Anaconda 1.8.0 installer
+export PATH="/home/{{ user }}/.miniconda/bin:$PATH"
+
+# Home bin path
+export PATH=$PATH:~/bin
+
+# Load irods module and cd to project dir
+module load irods/swestore_legacy &> /dev/null
+icd ../{{ data_group }}
+
+# User specific environment and startup programs
+export PATH=$HOME/bin:$PATH
+source activate master &> /dev/null
+
