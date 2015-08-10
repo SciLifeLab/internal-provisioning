@@ -1,0 +1,13 @@
+- hosts: hpc
+  vars:
+    user: "{{ USER | default('funk_001') }}"
+    data_group: "{{ DATA_GROUP | default('a2010002') }}"
+    bp_group: "{{ BP_GROUP | default('a2012043') }}"
+
+  roles:
+    - {role: miniconda, 
+       miniconda_environments: [
+         {name: master, python_version: 2.7, pkgs: 'pip ipython'}, 
+         {name: DeNovoPipeline, python_version: 2.7, pkgs: 'anaconda reportlab'}
+       ]}
+    - hpc

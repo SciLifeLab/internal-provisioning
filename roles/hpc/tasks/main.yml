@@ -1,0 +1,33 @@
+
+---
+###############################
+# Tasks file for the role hpc #
+###############################
+
+
+- name: Create directories if they don't not exist
+  file: path={{ item.dir }} state=directory
+  with_items:
+    - {dir: '/home/{{ user }}/config'}
+    - {dir: '/home/{{ user }}/log'}
+    - {dir: '/home/{{ user }}/.taca'}
+    - {dir: '/home/{{ user }}/.irods'}
+    - {dir: '/home/{{ user }}/opt'}
+    - {dir: '/home/{{ user }}/bin'}
+
+- name: Copy configuration files for different services (logrotate, lsyncd, etc.)
+  template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
+  with_items:
+    - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
+    - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
+
+- name: Clone useful git repos to our code directory
+  git: repo={{ item.url }} dest=/home/{{ user }}/opt/{{ item.url }}
+  with_items:
+    - {url: 'https://github.com/SciLifeLab/scilifelab.git', clone_to: 'scilifelab'}
+    - {url: 'https://github.com/SciLifeLab/TACA.git', clone_to: 'TACA'}
+    - {url: 'https://github.com/SciLifeLab/bcbb.git', clone_to: 'bcbb'}
+    - {url: 'https://github.com/SciLifeLab/NouGAT.git', clone_to: 'NouGAT'}
+    - {url: 'https://github.com/SciLifeLab/genologics.git', clone_to: 'genologics'}
+
+
