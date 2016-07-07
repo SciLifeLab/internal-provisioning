@@ -3,16 +3,9 @@
 # Tasks file for the role NAS #
 ###############################
 
-- name: Create ssh-key if it does not exist yet
-  user: name={{ user }} generate_ssh_key=yes ssh_key_bits=2048
-
-
 - name: Create directories if they don't not exist
   file: path={{ item.dir }} state=directory
   with_items:
-    - {dir: '/home/{{ user }}/config'}
-    - {dir: '/home/{{ user }}/log'}
-    - {dir: '/home/{{ user }}/.taca'}
     - {dir: '/home/{{ user }}/.irods'}
     - {dir: '{{ data_dir }}/hiseq_data/Runs/nosync/'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/'}
@@ -24,20 +17,10 @@
     - {template: 'logrotate.j2', dest_dir: '/home/{{ user }}/config', dest: 'logrotate.conf'}
     - {template: 'lsyncd.j2', dest_dir: '/home/{{ user }}/config', dest: 'lsyncd.conf'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
-    - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
     - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
-
-- name: Copy iRODS credentials
-  template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
-  with_items:
     - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
 
-
 #TODO: Check the validity of these cronjobs
-- name: Cronjob to start supervisord
-  cron: name="Start supervisord on reboot" special_time=reboot
-        job="/usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf"
-
 - name: Cronjob to run logrotate
   cron: name="Run logrotate hourly" special_time=hourly
         job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"
@@ -49,7 +32,3 @@
 - name: Cronjob to send finished runs to swestore
   cron: name="Send HiSeq finished runs to Swestore" special_time=daily
         job="0 1 * * * source ~/.bashrc && taca storage --days 10 archive --backend swestore --max-runs 4"
-
-
-- name: Start supervisord
-  shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf

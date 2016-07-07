@@ -3,13 +3,15 @@
 #########################################################################
 
 ---
+#Runs on the servers defined in [processing]
 - hosts: processing
   # Switch to the production user in the Processing server for all tasks to be executed
   sudo_user: '{{ user }}'
   sudo: yes
 
   roles:
+    - {role: common, tags: Common-dependencies }
+    - {role: processing, tags: Processing-specific }
     - {role: miniconda, tags: MiniConda }
     - {role: bcl2fastq, tags: Bcl2Fastq }
     - {role: taca, tags: TACA }
-    - {role: processing, tags: Processing-specific }

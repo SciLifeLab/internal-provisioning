@@ -3,27 +3,15 @@
 # Tasks file for the role Processing Server #
 #############################################
 
-- name: Create ssh-key if it does not exist yet
-  user: name="{{ user }}" generate_ssh_key=yes ssh_key_bits=2048
-
-
 - name: Create necessary directories
   file: path={{ item.dir }} state=directory
   with_items:
     - {dir: '/home/{{ user }}/opt'}
-    - {dir: '/home/{{ user }}/config'}
-    - {dir: '/home/{{ user }}/log'}
     - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
 - name: Copy configuration files for different services
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
-    - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
     - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
-
-
-
-- name: Start supervisord process
-  shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf

@@ -3,12 +3,14 @@
 ##############################################################
 
 ---
+#Runs on the servers defined in [nas]
 - hosts: nas
   # Switch to the production user in the NAS for all tasks to be executed
   sudo_user: '{{ user }}'
   sudo: yes
   
   roles:
+    - {role: common, tags: Common-dependencies }
+    - { role: nas, tags: NAS-specific }
     - { role: miniconda, tags: miniconda }
     - { role: taca, tags: taca }
-    - { role: nas, tags: NAS-specific }
