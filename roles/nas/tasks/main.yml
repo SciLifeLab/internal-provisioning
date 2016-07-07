@@ -17,7 +17,7 @@
     - {dir: '{{ data_dir }}/hiseq_data/Runs/nosync/'}
     - {dir: '{{ data_dir }}/miseq_data/nosync/'}
 
-
+#TODO: Check the validity of all of these config files
 - name: Copy configuration files for different services (logrotate, lsyncd, etc.)
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
@@ -27,7 +27,7 @@
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
     - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
 
-
+#TODO: Move this into a seperate role in order to make it more transparent
 - name: Install code repositories from {{ code_dir }}
   shell: source $HOME/.bash_profile && cd {{ item.repo }} && python setup.py install
   args:
@@ -43,6 +43,7 @@
     - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
 
 
+#TODO: Check the validity of these cronjobs
 - name: Cronjob to start supervisord
   cron: name="Start supervisord on reboot" special_time=reboot
         job="/usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf"

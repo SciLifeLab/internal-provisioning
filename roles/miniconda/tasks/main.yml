@@ -1,6 +1,10 @@
 ---
 # tasks file for miniconda
 
+#TODO: Check for existing environment
+#TODO: Add checks relating to necessity of downloading
+#TODO: Switch to regular conda(?)
+
 - name: Download miniconda installer
   get_url:
     url={{ miniconda_installer.url }}/{{ miniconda_installer.file }}
