@@ -1,9 +1,6 @@
 ---
-# tasks file for miniconda
-
-#TODO: Check for existing environment
-#TODO: Add checks relating to necessity of downloading
-#TODO: Switch to regular conda(?)
+# Tasks file for miniconda
+# Tasks are only ran if no prior installation of miniconda exists
 
 - name: Download miniconda installer
   get_url:
@@ -12,7 +9,6 @@
     mode=0755
   register: miniconda_downloaded
 
-- name: Install miniconda
   command: '/tmp/{{ miniconda_installer.file }} -b -p {{ miniconda_path }} creates={{ miniconda_path }}'
   register: miniconda_installed
   when: miniconda_downloaded | success

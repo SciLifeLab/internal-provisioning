@@ -2,6 +2,9 @@
 # Inventory file for production servers #
 #########################################
 
+[processing]
+preproc2.scilifelab.se
+
 [lims]
 genologics-stage.scilifelab.se
 
