@@ -1,4 +1,3 @@
-#TODO: Doublecheck and integrate this field
 server_status:
     command: df -h
     servers:
@@ -15,9 +14,9 @@ server_status:
         clinical-nas-2.scilifelab.se: /home
         b5.biotech.kth.se: /mnt/illumina
         comicbookguy.scilifelab.se: /home
-    user: hiseq.bioinfo
+    user: {{ user }}
 log:
-    file: /home/hiseq.bioinfo/log/taca.log
+    file: /home/{{ user }}/log/taca.log
 
 storage:
     data_dirs:
@@ -32,13 +31,15 @@ cleanup:
     processing-server:
         days: 10
 statusdb:
-    url: tools.scilifelab.se
+#TODO: Use actual
+    url: tools-dev.scilifelab.se
     username: production
     password: MGVmNjVkNzJlOTU1NmFh
     port: 5984
     xten_db: x_flowcells
 mail:
-    recipients: genomics-bioinfo@scilifelab.se
+#TODO: Use actual
+    recipients: isak.sylvin@scilifelab.se
 # Section for the preprocessing of raw data
 analysis:
     HiSeqX:
@@ -50,7 +51,7 @@ analysis:
             max_frequency_most_represented_und_index_pooled_lane: 5
             max_frequency_most_represented_und_index_unpooled_lane: 40
         bcl2fastq:
-            bin: /home/hiseq.bioinfo/opt/bcl2fastq_2.17/usr/local/bin/bcl2fastq
+            bin: /home/{{ user }}/opt/bcl2fastq_2.17/usr/local/bin/bcl2fastq
             options:
                 - output-dir: Demultiplexing
                 - loading-threads: 3
@@ -77,7 +78,7 @@ analysis:
             max_percentage_undetermined_indexes_NoIndex_lane: 30
             max_frequency_most_represented_und_index_NoIndex_lane: 40
         bcl2fastq:
-            bin: /home/hiseq.bioinfo/opt/bcl2fastq_2.17/usr/local/bin/bcl2fastq
+            bin: /home/{{ user }}/opt/bcl2fastq_2.17/usr/local/bin/bcl2fastq
             options:
                 - output-dir: Demultiplexing
                 - loading-threads: 3
@@ -104,7 +105,7 @@ analysis:
             max_percentage_undetermined_indexes_NoIndex_lane: 30
             max_frequency_most_represented_und_index_NoIndex_lane: 40
         bcl2fastq:
-            bin: /home/hiseq.bioinfo/opt/bcl2fastq_2.17/usr/local/bin/bcl2fastq
+            bin: /home/{{ user }}/opt/bcl2fastq_2.17/usr/local/bin/bcl2fastq
             options:
                 - output-dir: Demultiplexing
                 - loading-threads: 3
@@ -135,7 +136,7 @@ analysis:
     # finished_dir: nosync
     # status_dir indicates the directory where TACA will store the CSV file used
     # to keep track of which flowcells have already been processed and transferred
-    status_dir: /home/hiseq.bioinfo/log
+    status_dir: /home/{{ user }}/log
 
 bioinfo_tab:
     hiseq_samplesheets: /srv/mfs/samplesheets
@@ -147,4 +148,3 @@ bioinfo_tab:
         - /srv/illumina/hiseq_data
 
 mfs_path: /srv/mfs/
-
