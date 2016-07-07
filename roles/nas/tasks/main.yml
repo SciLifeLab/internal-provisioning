@@ -27,16 +27,6 @@
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
     - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
 
-#TODO: Move this into a seperate role in order to make it more transparent
-- name: Install code repositories from {{ code_dir }}
-  shell: source $HOME/.bash_profile && cd {{ item.repo }} && python setup.py install
-  args:
-    chdir: "{{ code_dir }}"
-  with_items: to_install
-  # Some packages do not return a standard linux success code (0), but are properly installed anyway
-  ignore_errors: yes
-
-
 - name: Copy iRODS credentials
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
