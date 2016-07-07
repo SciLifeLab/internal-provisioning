@@ -1,0 +1,11 @@
+statusdb_repo: "https://github.com/SciLifeLab/statusdb.git"
+statusdb_dest: "/home/{{ user }}/statusdb"
+statusdb_version: "4f419cf179827b636706b92e246987280d8596c0"
+
+flowcell_parser_repo: "https://github.com/SciLifeLab/flowcell_parser.git"
+flowcell_parser_dest: "/home/{{ user }}/flowcell_parser"
+flowcell_parser_version: "587cbfba9179f822a8e85946a13bfcd0b10b5a1b"
+
+taca_repo: "https://github.com/SciLifeLab/TACA.git"
+taca_dest: "/home/{{ user }}/TACA"
+taca_version: 01741daaffc5e12090316636f32ff86198fb90e9

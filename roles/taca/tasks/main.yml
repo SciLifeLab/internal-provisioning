@@ -1,0 +1,42 @@
+#TODO: Add paths and fix them
+- name: Fetch statusdb from GitHub
+  git: repo="{{ statusdb_repo }}"
+       dest="{{ statusdb_dest }}"
+       version="{{ statusdb_version }}"
+       force=yes
+
+- name: Install statusdb requirements
+  shell: "pip install -r {{ statusdb_dest }}/requirements.txt"
+
+- name: Install statusDB
+  shell: "pip install ."
+  args:
+    chdir: "{{ statusdb_dest }}"
+
+- name: Fetch flowcell_parser from GitHub
+  git: repo="{{ flowcell_parser_repo }}"
+       dest="{{ flowcell_parser_dest }}"
+       version="{{ flowcell_parser_version }}"
+       force=yes
+
+- name: Install flowcell_parser requirements
+  shell: "pip install -r {{ flowcell_parser_dest }}/requirements.txt"
+
+- name: Install flowcell_parser
+  shell: "pip install ."
+  args:
+    chdir: "{{ flowcell_parser_dest }}"
+
+- name: Fetch TACA from GitHub
+  git: repo="{{ taca_repo }}"
+       dest="{{ taca_dest }}"
+       version="{{ taca_version }}"
+       force=yes
+
+- name: Install TACA requirements
+  shell: "pip install -r {{ taca_dest }}/requirements.txt"
+
+- name: Install TACA
+  shell: "pip install ."
+  args:
+    chdir: "{{ taca_dest }}"

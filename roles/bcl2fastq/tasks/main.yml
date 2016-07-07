@@ -20,4 +20,3 @@
   shell: make && make install
   args:
     chdir: '{{ bcl2fastq_build_dir }}'
-

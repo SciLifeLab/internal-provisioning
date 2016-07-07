@@ -11,4 +11,5 @@
   roles:
     - miniconda
     - bcl2fastq
+    - taca
     - processing
