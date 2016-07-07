@@ -9,7 +9,7 @@
   sudo: yes
 
   roles:
-    - miniconda
-    - bcl2fastq
-    - taca
-    - processing
+    - {role: miniconda, tags: MiniConda }
+    - {role: bcl2fastq, tags: Bcl2Fastq }
+    - {role: taca, tags: TACA }
+    - {role: processing, tags: Processing-specific }

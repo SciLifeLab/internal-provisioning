@@ -9,6 +9,6 @@
   sudo: yes
   
   roles:
-    - miniconda
-    - taca
-    - nas
+    - { role: miniconda, tags: miniconda }
+    - { role: taca, tags: taca }
+    - { role: nas, tags: NAS-specific }
