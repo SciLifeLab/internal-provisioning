@@ -20,3 +20,6 @@
   shell: make && make install
   args:
     chdir: '{{ bcl2fastq_build_dir }}'
+
+- name: Add bcl2fastq to the path
+  shell: "export PATH=$PATH:{{ bcl2fastq_install_dir }}/bin"

@@ -15,15 +15,14 @@
     - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.taca'}
 
-#This has a single line that can be handled by bcl2fastq
 - name: Copy configuration files for different services
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
 
-- name: Cronjob to start supervisord
+- name: Cronjob for supervisord
   cron: name="Start supervisord on reboot" special_time=reboot
         job="/usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf"
 
-- name: Start supervisord process
+- name: Manually start supervisord process
   shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf

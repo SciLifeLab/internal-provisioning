@@ -11,6 +11,9 @@ comicbookguy.scilifelab.se
 b5.biotech.kth.se
 preproc1.scilifelab.se
 
+[processing:vars]
+dest_server=preproc1.scilifelab.se
+
 [lims]
 genologics.scilifelab.se
 

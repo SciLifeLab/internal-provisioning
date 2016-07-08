@@ -5,6 +5,9 @@
 [processing]
 preproc2.scilifelab.se
 
+[processing:vars]
+dest_server=preproc2.scilifelab.se
+
 [lims]
 genologics-stage.scilifelab.se
 
