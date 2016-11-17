@@ -10,6 +10,7 @@ comicbookguy.scilifelab.se
 [processing]
 b5.biotech.kth.se
 preproc1.scilifelab.se
+preproc2.scilifelab.se
 
 [processing:vars]
 dest_server=preproc1.scilifelab.se

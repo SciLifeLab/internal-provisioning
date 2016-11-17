@@ -6,10 +6,10 @@
        force=yes
 
 - name: Install statusdb requirements
-  shell: "pip install -r {{ statusdb_dest }}/requirements.txt"
+  shell: "{{ venv_bin }}/pip install -r {{ statusdb_dest }}/requirements.txt"
 
 - name: Install statusDB
-  shell: "pip install ."
+  shell: "{{ venv_bin }}/pip install ."
   args:
     chdir: "{{ statusdb_dest }}"
 
@@ -20,10 +20,10 @@
        force=yes
 
 - name: Install flowcell_parser requirements
-  shell: "pip install -r {{ flowcell_parser_dest }}/requirements.txt"
+  shell: "{{ venv_bin }}/pip install -r {{ flowcell_parser_dest }}/requirements.txt"
 
 - name: Install flowcell_parser
-  shell: "pip install ."
+  shell: "{{ venv_bin }}/pip install ."
   args:
     chdir: "{{ flowcell_parser_dest }}"
 
@@ -34,9 +34,9 @@
        force=yes
 
 - name: Install TACA requirements
-  shell: "pip install -r {{ taca_dest }}/requirements.txt"
+  shell: "{{ venv_bin }}/pip install -r {{ taca_dest }}/requirements.txt"
 
 - name: Install TACA
-  shell: "pip install ."
+  shell: "{{ venv_bin }}/pip install ."
   args:
     chdir: "{{ taca_dest }}"

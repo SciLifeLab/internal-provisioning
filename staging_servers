@@ -3,10 +3,10 @@
 #########################################
 
 [processing]
-preproc2.scilifelab.se
+preproc3.scilifelab.se
 
 [processing:vars]
-dest_server=preproc2.scilifelab.se
+dest_server=preproc3.scilifelab.se
 
 [lims]
 genologics-stage.scilifelab.se

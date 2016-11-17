@@ -7,8 +7,8 @@
   file: path={{ item.dir }} state=directory
   with_items:
     - {dir: '/home/{{ user }}/opt'}
-    - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
-    - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
+#   - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
+#   - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
 - name: Copy configuration files for different services
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}

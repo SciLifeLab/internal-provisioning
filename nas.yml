@@ -8,7 +8,9 @@
   # Switch to the production user in the NAS for all tasks to be executed
   sudo_user: '{{ user }}'
   sudo: yes
-  
+#  become_user: '{{ user }}'
+#  become_method: 'sudo' 
+ 
   roles:
     - { role: common, tags: Common-dependencies }
     - { role: nas, tags: NAS-specific }
