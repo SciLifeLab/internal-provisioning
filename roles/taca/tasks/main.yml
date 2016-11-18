@@ -30,7 +30,6 @@
 - name: Fetch TACA from GitHub
   git: repo="{{ taca_repo }}"
        dest="{{ taca_dest }}"
-       version="{{ taca_version }}"
        force=yes
 
 - name: Install TACA requirements

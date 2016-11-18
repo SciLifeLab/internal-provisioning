@@ -10,7 +10,6 @@
 - name: Create necessary directories
   file: path={{ item.dir }} state=directory
   with_items:
-    - {dir: '/home/{{ user }}/opt'}
     - {dir: '/home/{{ user }}/config'}
     - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.taca'}
