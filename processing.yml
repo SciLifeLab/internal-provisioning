@@ -6,10 +6,8 @@
 #Runs on the servers defined in [processing]
 - hosts: processing
   # Switch to the production user in the Processing server for all tasks to be executed
-  sudo_user: '{{ user }}'
-  sudo: yes
-#  become_user: '{{ user }}'
-#  become_method: 'sudo'
+  become: true
+  become_user: "{{ user }}"
 
   roles:
     - {role: common, tags: Common-dependencies }

@@ -17,8 +17,8 @@
     - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
 
 - name: Start taca cronjobs
-  cron: minute={item.min} hour={item.hour} job={item.job}
+  cron: minute={{ item.min }} hour={{ item.hour }} job={{ item.job }}
   with_items:
-  - { min:'0', hour:'*', job: 'source ~/.bash_profile && source activate taca  &> /dev/null && taca analysis demultiplex --force'}
-  - { min:'30', hour:'*', job: 'source ~/.bash_profile && source activate taca &> /dev/null  && taca bioinfo_deliveries update'}
-  - { min:'30', hour:'10', job: 'source ~/.bash_profile && source activate taca &> /dev/null && taca server_status cronjobs'}
+  - { min: "0", hour: "*", job: "source ~/.bash_profile && source activate taca  &> /dev/null && taca analysis demultiplex --force"}
+  - { min: "30", hour: "*", job: "source ~/.bash_profile && source activate taca &> /dev/null  && taca bioinfo_deliveries update"}
+  - { min: "30", hour: "10", job: "source ~/.bash_profile && source activate taca &> /dev/null && taca server_status cronjobs"}
