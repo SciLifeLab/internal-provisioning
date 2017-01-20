@@ -1,9 +1,26 @@
 #Run Denis URLfetch script
+- name: Fetch LongRanger download
+  script: parseWebpage.py
+  register: LR_url
 
-#Download longranger
+- name: Download LongRanger
+  get_url: url="{{ LR_url }}" dest=/tmp/ mode=ug+rwx
 
-#Download hg19 refdata
+- name: Unpack longranger
+  unarchive:
+    src: "/tmp/{{ LR_version }}"
+    dest: {{ LR_dest }} 
+    remote_src: True
 
-#Install longranger
+- name: Download hg19 reference
+  get_url: url={{ hg19_url }} dest=/tmp/ mode=ug+rwx
+
+- name: Unpack hg19 reference
+  unarchive:
+    src: "/tmp/{{ hg19_version }}"
+    dest: "{{ hg19_dest }}"
+    remote_src: True
 
 #Add longranger to path
+- name: Add LongRanger to PATH
+  shell: "export PATH=$PATH:/opt/longranger-2.1.2"
