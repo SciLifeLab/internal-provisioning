@@ -15,3 +15,4 @@
     - {role: miniconda, tags: MiniConda }
     - {role: bcl2fastq, tags: Bcl2Fastq }
     - {role: taca, tags: TACA }
+    - {role: longranger, tags: longranger }

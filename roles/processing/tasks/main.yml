@@ -14,11 +14,15 @@
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
-    - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
+    - {template: 'taca.yaml.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
+
+#Sets host unique start times.
+- set_fact:
+    minutes: "{{ 10 * timing }}"
 
 - name: Start taca cronjobs
   cron: minute={{ item.min }} hour={{ item.hour }} job={{ item.job }}
   with_items:
-  - { min: "0", hour: "*", job: "source ~/.bash_profile && source activate taca  &> /dev/null && taca analysis demultiplex --force"}
-  - { min: "30", hour: "*", job: "source ~/.bash_profile && source activate taca &> /dev/null  && taca bioinfo_deliveries update"}
-  - { min: "30", hour: "10", job: "source ~/.bash_profile && source activate taca &> /dev/null && taca server_status cronjobs"}
+  - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate taca  &> /dev/null && taca analysis demultiplex --force"}
+  - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate taca &> /dev/null  && taca bioinfo_deliveries update"}
+  - { min: "{{ minutes }}", hour: "10", job: "source ~/.bash_profile && source activate taca &> /dev/null && taca server_status cronjobs"}

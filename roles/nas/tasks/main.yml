@@ -17,7 +17,7 @@
     - {template: 'logrotate.j2', dest_dir: '/home/{{ user }}/config', dest: 'logrotate.conf'}
     - {template: 'lsyncd.j2', dest_dir: '/home/{{ user }}/config', dest: 'lsyncd.conf'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
-    - {template: 'taca.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
+    - {template: 'taca.yaml.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
     - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
 
 #TODO: Check the validity of these cronjobs

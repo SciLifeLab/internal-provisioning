@@ -8,15 +8,8 @@ nas-[6:10].scilifelab.se
 comicbookguy.scilifelab.se
 
 [processing]
-b5.biotech.kth.se
-preproc1.scilifelab.se
-preproc2.scilifelab.se
-
-[processing:vars]
-dest_server=preproc1.scilifelab.se
-
-[lims]
-genologics.scilifelab.se
-
-[web]
-tools.scilifelab.se
+#Timing is multiplied (by 10) to offset cronjobs
+b5.biotech.kth.se	timing=1
+preproc1.scilifelab.se	timing=2
+preproc2.scilifelab.se	timing=3
+preproc3.scilifelab.se	timing=4

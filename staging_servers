@@ -3,13 +3,5 @@
 #########################################
 
 [processing]
-preproc3.scilifelab.se
-
-[processing:vars]
-dest_server=preproc3.scilifelab.se
-
-[lims]
-genologics-stage.scilifelab.se
-
-[web]
-tools-dev.scilifelab.se
+#Timing is multiplied (by 10) to offset cronjobs
+preproc3.scilifelab.se	timing=2

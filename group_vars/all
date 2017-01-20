@@ -3,7 +3,7 @@ user: hiseq.bioinfo
 user_lims: glsai
 data_dir: /srv/illumina
 
-#Cruddy code ahoy!
+# Cruddy code ahoy!
 miniconda_path: '~/.miniconda'
 main_venv: master
 sw_path: /home/{{ user }}/opt
