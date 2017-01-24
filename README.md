@@ -14,41 +14,24 @@ production                # inventory file for production servers
 stage                     # inventory file for stage environment
 
 group_vars/
-   group1                 # here we assign variables to particular groups
-   group2                 # ""
-host_vars/
-   hostname1              # if systems need specific variables, put them here
-   hostname2              # ""
+   all                    # here we assign variables shared between all systems
 
-site.yml                  # master playbook
-webservers.yml            # playbook for webserver tier
-dbservers.yml             # playbook for dbserver tier
+processing.yml            # playbook for preprocessing servers
+nas.yml                   # playbook for nas'es
 
 roles/
     common/               # this hierarchy represents a "role"
         tasks/            #
-            main.yml      #  <-- tasks file can include smaller files if warranted
-        handlers/         #
-            main.yml      #  <-- handlers file
-        templates/        #  <-- files for use with the template resource
+            main.yml      #  <-- Main file for any given role
+        templates/        #  <-- Any configs or scripts that uses variables set in the recipe
             ntp.conf.j2   #  <------- templates end in .j2
-        files/            #
-            bar.txt       #  <-- files for use with the copy resource
-            foo.sh        #  <-- script files for use with the script resource
+        files/            #  <-- Any configs or scripts that require no modifications by the recipe
         vars/             #
-            main.yml      #  <-- variables associated with this role
-        defaults/         #
-            main.yml      #  <-- default lower priority variables for this role
-        meta/             #
-            main.yml      #  <-- role dependencies
-
-    webtier/              # same kind of structure as "common" was above, done for the webtier role
-    monitoring/           # ""
-    fooapp/               # ""
+            main.yml      #  <-- Variables uniquely associated with this role
 ```
 
 In order to deploy any of the playbooks, clone this repository to a machine that
-has `ssh` connection to all the servers you want to deploy. Usually your local machine
+is able to `ssh` connect to all the servers you want to deploy. Usually your local machine
 should be enough.
 
 __NOTE__: The following assume you have ansible installed in your machine, if not:
@@ -107,37 +90,42 @@ Once this is clear:
 $> ansible-playbook nas.yml -u <your_username> -i production --ask-vault-pass
 ```
 
- There are 2 variables defined in the role vars file that you _may_ want to replace:
-`dest_server` and `dest_data`. These variables define the processing server where the data is going to be synched and
-the destination directory. You can
-override it by adding `--extra-vars "dest_server=<value> dest_data=value"`. The
-default values for these variables are the ones needed **for a NAS connected to an
-XTen machine**.
-
-This playbook will:
-
-1. Install `miniconda` and create a virtual environment called `master` with all needed dependencies
-2. Create `config` directory and put there all configuration files
-3. Create `log` directory
-4. Install several repositories all needed code repositories
-5. Configure cronjobs
-6. Start `supervisord`, which will start all necessary services
-7. Copy irods credentials and configure iCommands (credentials are encrypted using `ansible-vault`, ask... someone for the password)
-
-
 ## Deploying a new processing server
 
 To deploy a new processing server, execute the `processing` playbook. Same **important**
 considerations from the nas need to be taken when deploying a processing server.
 
 ```bash
-$> ansible-playbook processing.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
+$> ansible-playbook processing.yml -u <your_username> -i <staging_servers | production_servers>
 ```
 
-This playbook will:
+## Roles rundown:
 
-* Create a public ssh key if not present
-* Install miniconda and create a virtual environment called master
-* Create necessary directories
-* Install CASAVA 2.5 under ~/opt
-* Copy necessary files
+In short the roles provide the following features:
+
+### Common
+
+Creates a ssh key. 
+Creates the directories config, log and .taca.
+Sets a custom bash_profile file.
+"Installs" and starts supervisord
+
+### Processing
+
+Creates sequencing archive directories.
+Copies processing unique supervisord configuration
+Starts cronjobs, which at the time of writing only concerns TACA
+
+### Nas
+
+Creates the .irods and nosync directories.
+Creates configurations for logrotate, lsyncd, supervisord, taca and irodsEnv
+Starts cronjobs, which at the time of writing concern `taca storage` and `logrotate`.
+
+### Miniconda, bcl2fastq, taca, longranger, etc.
+
+Downloads and installs the mentioned software.
+In addition the miniconda role creates the `master` venv if it does not already exist.
+
+
+
