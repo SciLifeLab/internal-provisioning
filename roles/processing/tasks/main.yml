@@ -3,10 +3,9 @@
 # Tasks file for the role Processing Server #
 #############################################
 
-- name: Create necessary directories
-  file: path={{ item.dir }} state=directory
-  with_items:
-    - {dir: '{{ sw_path }}'}
+#- name: Create necessary directories
+#  file: path={{ item.dir }} state=directory 
+#  with_items:
 #   - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
 #   - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
@@ -21,8 +20,8 @@
     minutes: "{{ 10 * timing }}"
 
 - name: Start taca cronjobs
-  cron: minute={{ item.min }} hour={{ item.hour }} job={{ item.job }}
+  cron: minute={{ item.min }} hour={{ item.hour }} job={{ item.job }} name={{ item.name }}
   with_items:
-  - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate taca  &> /dev/null && taca analysis demultiplex --force"}
-  - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate taca &> /dev/null  && taca bioinfo_deliveries update"}
-  - { min: "{{ minutes }}", hour: "10", job: "source ~/.bash_profile && source activate taca &> /dev/null && taca server_status cronjobs"}
+  - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate taca  &> /dev/null && taca analysis demultiplex --force", name: "Demux & HPC transfer"}
+  - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate taca &> /dev/null  && taca bioinfo_deliveries update", name: "G-Stats delivery page updates"}
+  - { min: "{{ minutes }}", hour: "10", job: "source ~/.bash_profile && source activate taca &> /dev/null && taca server_status cronjobs", name: "G-Stats cronjob tracker updates"}

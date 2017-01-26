@@ -1,5 +1,1 @@
-LR_version: "longranger-2.1.2.tar"
-LR_dest: "{{ sw_path }}/longranger"
-hg_19_version: "refdata-hg19-2.1.0.tar.gz"
 hg19_url: "https://s3-us-west-2.amazonaws.com/10x.datasets/refdata-hg19-2.1.0.tar.gz"
-hg19_dest: "{{ sw_path }}/hg19_reference"

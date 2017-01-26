@@ -8,8 +8,9 @@
 
 
 - name: Create necessary directories
-  file: path={{ item.dir }} state=directory
+  file: path={{ item.dir }} state=directory mode=g+rwxs
   with_items:
+    - {dir: '{{ sw_path }}'}
     - {dir: '/home/{{ user }}/config'}
     - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.taca'}

@@ -9,7 +9,8 @@
     dest=/tmp/{{ miniconda_installer.file }}
     mode=0755
 
-- command: '/tmp/{{ miniconda_installer.file }} -b -p {{ miniconda_path }} creates={{ miniconda_path }}'
+- name: Install miniconda
+  command: '/tmp/{{ miniconda_installer.file }} -b -p {{ miniconda_path }} creates={{ miniconda_path }}'
   register: miniconda_installed
   when: miniconda_downloaded | success
 
@@ -19,7 +20,7 @@
   register: miniconda_venv_created
   with_items: '{{ miniconda_environments }}'
 
-- name: update miniconda environment packages
+- name: Update miniconda environment packages
   command: '{{ miniconda_path }}/bin/conda install --yes -n {{ item.name }} {{ item.pkgs }}'
   when: miniconda_venv_created | success
   with_items: '{{ miniconda_environments }}'
