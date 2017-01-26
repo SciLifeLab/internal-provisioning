@@ -5,3 +5,7 @@
 [processing]
 #Timing is multiplied (by 10) to offset cronjobs
 preproc3.scilifelab.se	timing=2
+
+[nas]
+#synced_preproc is necessary for each nas entry
+preproc3.scilifelab.se synced_preproc=preproc3.scilifelab.se

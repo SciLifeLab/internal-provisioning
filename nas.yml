@@ -4,6 +4,7 @@
 
 ---
 #Runs on the servers defined in [nas]
+#doublecheck the synced_preproc variable
 - hosts: nas
   # Switch to the production user in the NAS for all tasks to be executed
   become: true

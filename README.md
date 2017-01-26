@@ -81,13 +81,13 @@ ssh option:
 In order to deploy a new NAS, you just need to execute the `nas` playbook. Some
 **important** considerations before doing that are:
 
-* You need to be able to ssh paswordless into the NAS
+* You need to be able to ssh passwordless into the NAS
 * You need permission to `sudo` to the production user (which you can ask to some NGI member)
 
 Once this is clear:
 
 ```bash
-$> ansible-playbook nas.yml -u <your_username> -i production --ask-vault-pass
+$> ansible-playbook nas.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
 ```
 
 ## Deploying a new processing server
