@@ -1,11 +1,11 @@
 statusdb_repo: "https://github.com/SciLifeLab/statusdb.git"
 statusdb_dest: "{{ sw_path }}/statusdb"
-statusdb_version: "4f419cf179827b636706b92e246987280d8596c0"
+statusdb_version: ca2a3faea82a10359c70f7a7697db499b5c82b17
 
 flowcell_parser_repo: "https://github.com/SciLifeLab/flowcell_parser.git"
 flowcell_parser_dest: "{{ sw_path }}/flowcell_parser"
-flowcell_parser_version: "587cbfba9179f822a8e85946a13bfcd0b10b5a1b"
+flowcell_parser_version: 945dcd9d70cddbaffbf332a5715df049ef081617
 
 taca_repo: "https://github.com/SciLifeLab/TACA.git"
 taca_dest: "{{ sw_path }}/TACA"
-taca_version: 01741daaffc5e12090316636f32ff86198fb90e9
+taca_version: ae2e77d8ef9eee6971687109a27d15f1d49e312a
