@@ -1,5 +1,11 @@
 ---
 # Suffix is removed for good reason
-bcl2fastq_package: "bcl2fastq2-v2.17.1.14-Linux-x86_64"
-bcl2fastq_url: ftp://webdata2:webdata2@ussd-ftp.illumina.com/downloads/Software/bcl2fastq/
+
+# 2.17 implementation
+#bcl2fastq_package: "bcl2fastq2-v2.17.1.14-Linux-x86_64.zip"
+#bcl2fastq_url: ftp://webdata2:webdata2@ussd-ftp.illumina.com/downloads/Software/bcl2fastq/
+
 bcl2fastq_install_dir: "{{ sw_path }}/bcl2fastq"
+bcl2fastq_package: "bcl2fastq2-v2.19.0.316-Linux-x86_64"
+bcl2fastq_url: "https://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/"
+
