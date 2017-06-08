@@ -4,18 +4,18 @@
 
 - name: Download bcl2fastq
   get_url:
-    #url="{{ bcl2fastq_url }}/{{ bcl2fastq_package }}.zip"
-    url="{{ bcl2fastq_url }}/{{ bcl2fastq_package }}.rpm"
+    url="{{ bcl2fastq_url }}/{{ bcl2fastq_zip }}.zip"
     dest="/tmp/"
+    #url="{{ bcl2fastq_url }}/{{ bcl2fastq_package }}.rpm"
 
-#- name: Unzip bcl2fastq package
-#  unarchive:
-#    src: "/tmp/{{ bcl2fastq_package }}.zip"
-#    dest: "/tmp/"
-#    copy: no
+- name: Unzip bcl2fastq package
+  unarchive:
+    src: "/tmp/{{ bcl2fastq_zip }}.zip"
+    dest: "/tmp/"
+    copy: no
 
 - name: Extract bcl2fastq RPM
-  shell: rpm2cpio "{{ bcl2fastq_package }}.rpm" | cpio -idmv
+  shell: rpm2cpio "{{ bcl2fastq_rpm }}.rpm" | cpio -idmv
   args:  
     chdir: "/tmp/"
 
