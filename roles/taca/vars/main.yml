@@ -4,7 +4,7 @@ statusdb_version: ca2a3faea82a10359c70f7a7697db499b5c82b17
 
 flowcell_parser_repo: "https://github.com/SciLifeLab/flowcell_parser.git"
 flowcell_parser_dest: "{{ sw_path }}/flowcell_parser"
-flowcell_parser_version: 945dcd9d70cddbaffbf332a5715df049ef081617
+flowcell_parser_version: c046fbe0b71eb7aa9297d427b3e06cee4efdd5b3
 
 taca_repo: "https://github.com/hammarn/TACA.git"
 taca_dest: "{{ sw_path }}/TACA"

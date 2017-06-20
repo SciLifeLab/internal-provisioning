@@ -5,8 +5,9 @@
 #bcl2fastq_package: "bcl2fastq2-v2.17.1.14-Linux-x86_64.zip"
 #bcl2fastq_url: ftp://webdata2:webdata2@ussd-ftp.illumina.com/downloads/Software/bcl2fastq/
 
+bcl2fastq_ver: "v2.18.0.12"
 bcl2fastq_zip: "bcl2fastq2-v2-18-0-12-linux-x86-64"
-bcl2fastq_rpm: "bcl2fastq2-v2.18.0.12-Linux-x86_64"
-bcl2fastq_install_dir: "{{ sw_path }}/bcl2fastq_{{ bcl2fastq_rpm }}"
+bcl2fastq_rpm: "bcl2fastq2-{{ bcl2fastq_ver }}-Linux-x86_64"
+bcl2fastq_install_dir: "{{ sw_path }}/bcl2fastq_{{ bcl2fastq_ver }}"
 bcl2fastq_url: "https://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/"
 
