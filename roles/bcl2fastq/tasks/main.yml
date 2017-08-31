@@ -26,3 +26,8 @@
   lineinfile: dest="/home/{{ user }}/.bash_profile"
               line='export PATH=$PATH:{{ bcl2fastq_install_dir }}/bin'
               backup=no
+
+- name: Unpack 10X config file
+  copy:
+    src: Chromium_10X_indexes.txt
+    dest: /home/hiseq.bioinfo/config/Chromium_10X_indexes.txt

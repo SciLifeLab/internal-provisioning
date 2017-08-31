@@ -1,6 +1,5 @@
 log:
     file: "/home/{{ user }}/log/taca.log"
-
 storage:
     data_dirs:
         - /srv/illumina/hiseq_data
@@ -23,40 +22,85 @@ statusdb:
     port: 5984
     xten_db: x_flowcells
 mail:
-    recipients: genomics-bioinfo@scilifelab.se
+    recipients: bcl_upgrade_test@scilifelab.se
 
 # Section for the preprocessing of raw data
 analysis:
     HiSeqX:
-        QC:
-            max_percentage_undetermined_indexes_pooled_lane: 5
-            max_percentage_undetermined_indexes_unpooled_lane: 20
-            minimum_percentage_Q30_bases_per_lane: 75
-            minimum_yield_per_lane: 305000000
-            max_frequency_most_represented_und_index_pooled_lane: 5
-            max_frequency_most_represented_und_index_unpooled_lane: 40
         bcl2fastq:
-            Version: bcl2fastq-v2.17.1.14
-            bin: /home/hiseq.bioinfo/opt/bcl2fastq_v2.17.1.14/usr/local/bin/bcl2fastq
+            Version: bcl2fastq2_v2.19.1
+            bin: /home/hiseq.bioinfo/opt/bcl2fastq2_v2.19.1/bin/bcl2fastq
+            index_path: /home/hiseq.bioinfo/config/Chromium_10X_indexes.txt
             options:
                 - output-dir: Demultiplexing
                 - loading-threads: 3
-                - demultiplexing-threads: 6
                 - processing-threads: 12
                 - writing-threads: 3
+            options_10X:
+                - minimum-trimmed-read-length: 8
+                - mask-short-adapter-reads: 8
+                - ignore-missing-positions
+                - ignore-missing-controls
+                - ignore-missing-filter
+                - ignore-missing-bcls
+                - create-fastq-for-index
         samplesheets_dir: /srv/mfs/samplesheets/HiSeqX
         analysis_server:
-            host: irma1.uppmax.uu.se
+            host: milou-b.uppmax.uu.se
             port: 
-            user: funk_903
+            user: vezzi
             sync:
-                data_archive: ""
+                data_archive: /proj/a2010002/francesco/bcl2fastq_tranfer_test/
                 include:
                     - "*.xml"
                     - "*.htm"
                     - "*.html"
                     - "*.fastq.gz"
                     - "*.csv"
+    HiSeq:
+        bcl2fastq:
+            Version: bcl2fastq2_v2.19.1
+            bin: /home/hiseq.bioinfo/opt/bcl2fastq2_v2.19.1/bin/bcl2fastq
+            options:
+                - output-dir: Demultiplexing
+                - loading-threads: 3
+                - processing-threads: 12
+                - writing-threads: 3
+        samplesheets_dir: /srv/mfs/samplesheets/
+        analysis_server:
+            host: milou-b.uppmax.uu.se
+            port: 
+            user: vezzi
+            sync:
+                data_archive: /proj/a2015205/incoming/
+                include:
+                    - "*.xml"
+                    - "*.htm"
+                    - "*.html"
+                    - "*.csv"
+
+    MiSeq:
+        bcl2fastq:
+            Version: bcl2fastq2_v2.19.1
+            bin: /home/hiseq.bioinfo/opt/bcl2fastq2_v2.19.1/bin/bcl2fastq
+            options:
+                - output-dir: Demultiplexing
+                - loading-threads: 3
+                - processing-threads: 12
+                - writing-threads: 3
+        samplesheets_dir: /srv/mfs/samplesheets/
+        analysis_server:
+            host: milou-b.uppmax.uu.se
+            port: 
+            user: vezzi
+            sync:
+                data_archive: /proj/a2015205/incoming/
+                include:
+                    - "*.xml"
+                    - "*.htm"
+                    - "*.html"
+                    - "*.csv"
+
    # Directories where TACA will look for new data to be processed
     data_dirs:
         - /srv/illumina/HiSeq_X_data
