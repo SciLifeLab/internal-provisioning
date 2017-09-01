@@ -8,4 +8,4 @@ flowcell_parser_version: c046fbe0b71eb7aa9297d427b3e06cee4efdd5b3
 
 taca_repo: "https://github.com/hammarn/TACA.git"
 taca_dest: "{{ sw_path }}/TACA"
-taca_version: 3f6bc16d8a281674cf313cdcebadbadc1a6019c9
+taca_version: 61132500b7109b089fcf2ded25b6fa566e59feca
