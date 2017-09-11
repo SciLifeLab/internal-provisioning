@@ -6,6 +6,6 @@ flowcell_parser_repo: "https://github.com/SciLifeLab/flowcell_parser.git"
 flowcell_parser_dest: "{{ sw_path }}/flowcell_parser"
 flowcell_parser_version: c046fbe0b71eb7aa9297d427b3e06cee4efdd5b3
 
-taca_repo: "https://github.com/hammarn/TACA.git"
+taca_repo: "https://github.com/SciLifeLab/TACA.git"
 taca_dest: "{{ sw_path }}/TACA"
-taca_version: 61132500b7109b089fcf2ded25b6fa566e59feca
+taca_version: d083ecff41c1c7b422cb23541d82c0001b556dde

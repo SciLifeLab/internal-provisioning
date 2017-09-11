@@ -16,9 +16,9 @@ cleanup:
     processing-server:
         days: 10
 statusdb:
-    url: tools-dev.scilifelab.se
-    username: production
-    password: MGVmNjVkNzJlOTU1NmFh
+    url: tools.scilifelab.se
+    username: {{ couchdb_user }}
+    password: {{ couchdb_pw }}
     port: 5984
     xten_db: x_flowcells
 mail:
@@ -46,17 +46,17 @@ analysis:
                 - create-fastq-for-index
         samplesheets_dir: /srv/mfs/samplesheets/HiSeqX
         analysis_server:
-            host: milou-b.uppmax.uu.se
+            host: {{ remote_host }}
             port: 
-            user: vezzi
+            user: {{ remote_user }}
             sync:
-                data_archive: /proj/a2010002/francesco/bcl2fastq_tranfer_test/
+                data_archive: ""
                 include:
                     - "*.xml"
                     - "*.htm"
                     - "*.html"
-                    - "*.fastq.gz"
                     - "*.csv"
+		    - "*.fastq.gz"
     HiSeq:
         bcl2fastq:
             Version: bcl2fastq_v2.19.1.403
@@ -68,16 +68,17 @@ analysis:
                 - writing-threads: 3
         samplesheets_dir: /srv/mfs/samplesheets/
         analysis_server:
-            host: milou-b.uppmax.uu.se
+            host: {{ remote_host }}
             port: 
-            user: vezzi
+            user: {{ remote_user }}
             sync:
-                data_archive: /proj/a2015205/incoming/
+                data_archive: ""
                 include:
                     - "*.xml"
                     - "*.htm"
                     - "*.html"
                     - "*.csv"
+		    - "*.fastq.gz"
 
     MiSeq:
         bcl2fastq:
@@ -90,9 +91,9 @@ analysis:
                 - writing-threads: 3
         samplesheets_dir: /srv/mfs/samplesheets/
         analysis_server:
-            host: milou-b.uppmax.uu.se
+            host: {{ remote_host }}
             port: 
-            user: vezzi
+            user: {{ remote_user }}
             sync:
                 data_archive: /proj/a2015205/incoming/
                 include:
@@ -100,6 +101,7 @@ analysis:
                     - "*.htm"
                     - "*.html"
                     - "*.csv"
+		    - "*.fastq.gz"
 
    # Directories where TACA will look for new data to be processed
     data_dirs:
