@@ -1,3 +1,20 @@
+server_status:                                                                  
+    command: df -h                                                              
+    servers:                                                                    
+        preproc1.scilifelab.se: /srv/illumina                                   
+        preproc2.scilifelab.se: /srv/illumina                                   
+        seq-nas-1.scilifelab.se: /home                                          
+        seq-nas-2.scilifelab.se: /home                                          
+        seq-nas-3.scilifelab.se: /home                                          
+        nas-6.scilifelab.se: /home                                              
+        nas-7.scilifelab.se: /home                                              
+        nas-8.scilifelab.se: /home                                              
+        nas-9.scilifelab.se: /home                                              
+        nas-10.scilifelab.se: /home                                             
+        clinical-nas-2.scilifelab.se: /home                                     
+        b5.biotech.kth.se: /mnt/illumina                                        
+        comicbookguy.scilifelab.se: /home                                       
+    user: {{ user }}      
 log:
     file: "/home/{{ user }}/log/taca.log"
 storage:
@@ -22,7 +39,7 @@ statusdb:
     port: 5984
     xten_db: x_flowcells
 mail:
-    recipients: bcl_upgrade_test@scilifelab.se
+    recipients: genomics-bioinfo@scilifelab.se
 
 # Section for the preprocessing of raw data
 analysis:
