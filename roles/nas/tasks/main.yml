@@ -34,4 +34,4 @@
         job="0 1 * * * source ~/.bashrc && taca storage --days 10 archive --backend swestore --max-runs 4"
 
 - name: Manually start supervisord process
-  shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf
+  shell: "{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"

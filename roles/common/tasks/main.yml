@@ -10,6 +10,9 @@
     - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.taca'}
 
+- name: Install supervisor
+  shell: "{{ venv_bin }}/pip install supervisor"
+
 - name: Copy configuration files for different services
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
@@ -17,4 +20,4 @@
 
 - name: Cronjob for supervisord
   cron: name="Start supervisord on reboot" special_time=reboot
-        job="/usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf"
+        job="{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"
