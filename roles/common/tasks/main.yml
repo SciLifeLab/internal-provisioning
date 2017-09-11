@@ -14,11 +14,7 @@
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
-    - {template: 'supervisord.conf.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
 
 - name: Cronjob for supervisord
   cron: name="Start supervisord on reboot" special_time=reboot
         job="/usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf"
-
-- name: Manually start supervisord process
-  shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf
