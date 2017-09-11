@@ -25,6 +25,7 @@
   - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate master  &> /dev/null && taca analysis demultiplex --force", name: "Demux & HPC transfer"}
   - { min: "{{ minutes }}", hour: "*", job: "source ~/.bash_profile && source activate master &> /dev/null  && taca bioinfo_deliveries update", name: "G-Stats delivery page updates"}
   - { min: "{{ minutes }}", hour: "10", job: "source ~/.bash_profile && source activate master &> /dev/null && taca server_status cronjobs", name: "G-Stats cronjob tracker updates"}
+  - { min: "{{ minutes }}", hour: "6,16", job: "source ~/.bash_profile && source activate master &> /dev/null && taca server_status nases --statusdb &> /dev/null", name: "NAS disc usage"
 
 - name: Manually start supervisord process
   shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf
