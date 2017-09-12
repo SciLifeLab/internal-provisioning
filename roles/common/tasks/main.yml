@@ -15,6 +15,13 @@
     path: "{{ paths_file }}"
     state: touch
 
+- name: Add activate line to paths file
+  lineinfile: dest={{ paths_file }}
+              line="source activate master"
+              insertafter=EOF
+              backup=no
+              create=yes
+
 - name: Install supervisor
   shell: "{{ venv_bin }}/pip install supervisor"
 

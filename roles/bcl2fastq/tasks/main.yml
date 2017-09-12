@@ -25,7 +25,9 @@
 - name: Add bcl2fastq to paths_file
   lineinfile: dest={{ paths_file }}
               line="export PATH={{ bcl2fastq_install_dir }}/bin:$PATH"
+              insertbefore=BOF
               backup=no
+              create=yes
 
 - name: Unpack 10X config file
   copy:

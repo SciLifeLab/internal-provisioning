@@ -28,4 +28,6 @@
 - name: Add miniconda to paths_file
   lineinfile: dest={{ paths_file }}
               line="export PATH=/home/{{ user }}/.miniconda/bin:$PATH"
+              insertbefore=BOF
               backup=no
+              create=yes
