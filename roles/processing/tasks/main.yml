@@ -22,10 +22,10 @@
 - name: Start taca cronjobs
   cron: minute={{ item.min }} hour={{ item.hour }} job={{ item.job }} name={{ item.name }}
   with_items:
-  - { min: "{{ minutes }}", hour: "*", job: "source {{ paths_file }} && source activate master  &> /dev/null && taca analysis demultiplex --force  &> /dev/null", name: "Demux & HPC transfer"}
-  - { min: "{{ minutes }}", hour: "*", job: "source {{ paths_file }} && source activate master &> /dev/null  && taca bioinfo_deliveries update  &> /dev/null", name: "G-Stats delivery page updates"}
-  - { min: "{{ minutes }}", hour: "10", job: "source {{ paths_file }} && source activate master &> /dev/null && taca server_status cronjobs  &> /dev/null", name: "G-Stats cronjob tracker updates"}
-  - { min: "{{ minutes }}", hour: "6,16", job: "source {{ paths_file }} && source activate master &> /dev/null && taca server_status nases --statusdb &> /dev/null", name: "NAS disc usage"}
+  - { min: "{{ minutes }}", hour: "*", job: "source {{ paths_file }}  &> /dev/null && taca analysis demultiplex --force  &> /dev/null", name: "Demux & HPC transfer"}
+  - { min: "{{ minutes }}", hour: "*", job: "source {{ paths_file }} &> /dev/null  && taca bioinfo_deliveries update  &> /dev/null", name: "G-Stats delivery page updates"}
+  - { min: "{{ minutes }}", hour: "10", job: "source {{ paths_file }} &> /dev/null && taca server_status cronjobs  &> /dev/null", name: "G-Stats cronjob tracker updates"}
+  - { min: "{{ minutes }}", hour: "6,16", job: "source {{ paths_file }} &> /dev/null && taca server_status nases --statusdb &> /dev/null", name: "NAS disc usage"}
 
 - name: Manually start supervisord process
   shell: "{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"
