@@ -1,12 +1,10 @@
-#Ansible playbooks
+# Ansible playbooks
 
-This reposiory contains playbooks to deploy the infrastructure at National Genomics
+This repository contains playbooks to deploy the preprocessing and NAS infrastructure at National Genomics
 Infrastructure.
 
 Please refer to [ansible documentation](http://docs.ansible.com/) for more details
 about Ansible concepts and how it works.
-
-Also, take a look at the ansible [best practices](http://docs.ansible.com/playbooks_best_practices.html).
 
 The repository is structured following this structure
 ```
@@ -31,10 +29,9 @@ roles/
 ```
 
 In order to deploy any of the playbooks, clone this repository to a machine that
-is able to `ssh` connect to all the servers you want to deploy. Usually your local machine
-should be enough.
+is able to `ssh` to the servers you want to deploy. Usually your local machine has enough access rights.
 
-__NOTE__: The following assume you have ansible installed in your machine, if not:
+__NOTE__: Install ansible on your machine via:
 
 ```bash
 $> sudo pip install ansible
@@ -42,14 +39,13 @@ $> sudo pip install ansible
 
 ### Create a testing environment
 You don't want to mess around the production servers until you are sure that everything
-works, don't you? Okay that's easy to solve: just create a virtual mini-cluster
+works, don't you? Okay that's easy to solve. Either deploy on the staging server, or (if none are available) create a virtual mini-cluster
 using vagrant and configure it [like this](http://hakunin.com/six-ansible-practices#build-a-convenient-local-playground)
 
 # Ansible and 2-factor authentication
-Ansible does not play nice with 2-factor authentication by the moment, so in order
-to run a playbook on a server 2-factor authentication enabled you have 2 options:
+In order to run a playbook on a server with 2-factor authentication enabled you have 2 options:
 
-1. Clone this deployment repository into the server and run the playbook locally
+1. Clone this repository onto the server and run the playbook locally
 using `--connection=local`
 
 2. _Slightly more complicated_: Tunnel the connection through an already opened
@@ -77,26 +73,31 @@ ssh option:
 
     * On a separate terminal, run the playbook as usual.
 
-## Deploying a new NAS
-In order to deploy a new NAS, you just need to execute the `nas` playbook. Some
-**important** considerations before doing that are:
+
+## Deploying a new preprocessing server
+
+To deploy a new preprocessing server, execute the `processing` playbook. The requirements for deploying are:
 
 * You need to be able to ssh passwordless into the NAS
-* You need permission to `sudo` to the production user (which you can ask to some NGI member)
+* You need permission to `sudo` to the relevant production user account 
 
-Once this is clear:
+If requirements are met, simply use:
+```bash
+$> ansible-playbook processing.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
+```
+
+## Deploying a new NAS
+Currently the playbooks for deploying NASes are **under development**.
+That means it's up to **you** to make sure that everything looks good **before** you replace the production cluster.
+
+In order to deploy a new NAS, execute the `nas` playbook.
+Same requirement as for deploying a preprocessing server apply.
+Additionally the NASes use 2-factor authentication. So have fun with that.
+
+In theory the same command as for deploying preprocessing servers should apply.
 
 ```bash
 $> ansible-playbook nas.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
-```
-
-## Deploying a new processing server
-
-To deploy a new processing server, execute the `processing` playbook. Same **important**
-considerations from the nas need to be taken when deploying a processing server.
-
-```bash
-$> ansible-playbook processing.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
 ```
 
 ## Roles rundown:
@@ -125,7 +126,7 @@ Starts cronjobs, which at the time of writing concern `taca storage` and `logrot
 ### Miniconda, bcl2fastq, taca, longranger, etc.
 
 Downloads and installs the mentioned software.
-In addition the miniconda role creates the `master` venv if it does not already exist.
+Additionally the miniconda role creates the `master` venv if it does not already exist.
 
 
 
