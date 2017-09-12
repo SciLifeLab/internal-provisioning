@@ -10,6 +10,11 @@
     - {dir: '/home/{{ user }}/log'}
     - {dir: '/home/{{ user }}/.taca'}
 
+- name: Create pathsfile
+  file: 
+    path: "{{ paths_file }}"
+    state: touch
+
 - name: Install supervisor
   shell: "{{ venv_bin }}/pip install supervisor"
 
@@ -20,4 +25,4 @@
 
 - name: Cronjob for supervisord
   cron: name="Start supervisord on reboot" special_time=reboot
-        job="{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"
+        job="{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf &> /dev/null"

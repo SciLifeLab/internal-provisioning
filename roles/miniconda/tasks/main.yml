@@ -24,3 +24,8 @@
   command: '{{ miniconda_path }}/bin/conda install --yes -n {{ item.name }} {{ item.pkgs }}'
   when: miniconda_venv_created | success
   with_items: '{{ miniconda_environments }}'
+
+- name: Add miniconda to paths_file
+  lineinfile: dest={{ paths_file }}
+              line="export PATH=/home/{{ user }}/.miniconda/bin:$PATH"
+              backup=no

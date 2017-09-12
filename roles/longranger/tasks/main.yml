@@ -46,7 +46,7 @@
 - name: Move hg19
   command: "mv /tmp/{{ hg19_dir.stdout }} {{ sw_path }} creates={{ sw_path }}/{{ hg19_dir.stdout }} removes=/tmp/{{ hg19_dir.stdout }}"
 
-- name: Add LongRanger to $PATH
-  lineinfile: dest="/home/{{ user }}/.bash_profile"
-              line='export PATH=$PATH:/opt/{{ LR_dir.stdout }}'
+- name: Add bcl2fastq to paths_file
+  lineinfile: dest={{ paths_file }}
+              line="export PATH=/opt/{{ LR_dir.stdout }}:$PATH"
               backup=no
