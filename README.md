@@ -42,6 +42,77 @@ You don't want to mess around the production servers until you are sure that eve
 works, don't you? Okay that's easy to solve. Either deploy on the staging server, or (if none are available) create a virtual mini-cluster
 using vagrant and configure it [like this](http://hakunin.com/six-ansible-practices#build-a-convenient-local-playground)
 
+## Deploying a new preprocessing server
+
+To deploy a new preprocessing server, execute the `processing` playbook. The requirements for deploying are:
+
+* You need to be able to ssh passwordless into the NAS
+* You need permission to `sudo` to the relevant production user account 
+
+If requirements are met, simply use:
+```bash
+$> ansible-playbook processing.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
+```
+
+## Deploying a new NAS
+Currently the playbooks for deploying NASes are **under development**.
+That means it's up to **you** to make sure that everything looks good **before** you replace the production cluster.
+
+In order to deploy a new NAS, execute the `nas` playbook.
+Same requirement as for deploying a preprocessing server apply.
+Additionally the NASes use 2-factor authentication. So have fun with that.
+
+In theory the same command as for deploying preprocessing servers should apply.
+
+```bash
+$> ansible-playbook nas.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
+```
+
+## Problem areas
+For typical deployment there are certain problem areas one is likely to run into, which are all easily mitigated:
+* Since current activity is interrupted when deploying, try to avoid deploying whilst the preprocessing server is actively being used. `htop` is useful for checking the activity of the `bcl2fastq` software.
+* Download links for non-github software (bcl2fastq, longranger reference etc.) are likely to change over time. In such cases the ansible playbook will simply exit with an error message. Update `vars/main.yml` accordingly
+* Manually comment out processing.yml and production_servers (or similar) to deploy a subset of software to a subset of servers
+* Always manually verify the cronjobs after deployment. For instance, the job "NAS disc usage" should only run on a single preprocessing server to avoid concurrency issues.
+
+## Installation folder structure (preprocessing)
+
+In /home/<user>:
+
+.taca/taca.yaml			Automatically applied configuration file to all TACA commands
+.bash_profile			Loads $PATHs, environment and syntax highlighting
+config/				Configuration files to $PATHs, 10x chromium demultiplexing, and supervisord
+log/				Log files from TACA, supervisord and flowcell transfers
+opt/				All installed software applied by the preprocessing cluster
+
+## Roles rundown:
+
+In short the roles provide the following features:
+
+### Common
+
+Creates a ssh key. 
+Creates the directories config, log and .taca.
+Sets a custom bash_profile file and a custom paths.sh file (to initialize $PATH).
+"Installs" and starts supervisord
+
+### Processing
+
+Creates sequencing archive directories.
+Copies processing unique supervisord configuration
+Starts cronjobs, which at the time of writing only concern TACA
+
+### Nas
+
+Creates the .irods and nosync directories.
+Creates configurations for logrotate, lsyncd, supervisord, taca and irodsEnv
+Starts cronjobs, which at the time of writing concern `taca storage` and `logrotate`.
+
+### Miniconda, bcl2fastq, taca, longranger, etc.
+
+Downloads and installs the mentioned software.
+Additionally the miniconda role creates the `master` venv if it does not already exist.
+
 # Ansible and 2-factor authentication
 In order to run a playbook on a server with 2-factor authentication enabled you have 2 options:
 
@@ -72,61 +143,3 @@ ssh option:
     **Keep the connection opened.**
 
     * On a separate terminal, run the playbook as usual.
-
-
-## Deploying a new preprocessing server
-
-To deploy a new preprocessing server, execute the `processing` playbook. The requirements for deploying are:
-
-* You need to be able to ssh passwordless into the NAS
-* You need permission to `sudo` to the relevant production user account 
-
-If requirements are met, simply use:
-```bash
-$> ansible-playbook processing.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
-```
-
-## Deploying a new NAS
-Currently the playbooks for deploying NASes are **under development**.
-That means it's up to **you** to make sure that everything looks good **before** you replace the production cluster.
-
-In order to deploy a new NAS, execute the `nas` playbook.
-Same requirement as for deploying a preprocessing server apply.
-Additionally the NASes use 2-factor authentication. So have fun with that.
-
-In theory the same command as for deploying preprocessing servers should apply.
-
-```bash
-$> ansible-playbook nas.yml -u <your_username> -i <staging_servers | production_servers> --ask-vault-pass
-```
-
-## Roles rundown:
-
-In short the roles provide the following features:
-
-### Common
-
-Creates a ssh key. 
-Creates the directories config, log and .taca.
-Sets a custom bash_profile file.
-"Installs" and starts supervisord
-
-### Processing
-
-Creates sequencing archive directories.
-Copies processing unique supervisord configuration
-Starts cronjobs, which at the time of writing only concerns TACA
-
-### Nas
-
-Creates the .irods and nosync directories.
-Creates configurations for logrotate, lsyncd, supervisord, taca and irodsEnv
-Starts cronjobs, which at the time of writing concern `taca storage` and `logrotate`.
-
-### Miniconda, bcl2fastq, taca, longranger, etc.
-
-Downloads and installs the mentioned software.
-Additionally the miniconda role creates the `master` venv if it does not already exist.
-
-
-
