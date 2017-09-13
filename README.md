@@ -76,37 +76,37 @@ For typical deployment there are certain problem areas one is likely to run into
 * Always manually verify the cronjobs after deployment. For instance, the job "NAS disc usage" should only run on a single preprocessing server to avoid concurrency issues.
 
 ## Installation folder structure (preprocessing)
-
+```
 In /home/<user>:
 
-.taca/taca.yaml			Automatically applied configuration file to all TACA commands
-.bash_profile			Loads $PATHs, environment and syntax highlighting
-config/				Configuration files to $PATHs, 10x chromium demultiplexing, and supervisord
-log/				Log files from TACA, supervisord and flowcell transfers
-opt/				All installed software applied by the preprocessing cluster
-
+.taca/taca.yaml			Automatically applied configuration file to all TACA commands  
+.bash_profile			Loads $PATHs, environment and syntax highlighting  
+config/				Configuration files to $PATHs, 10x chromium demultiplexing, and supervisord  
+log/				Log files from TACA, supervisord and flowcell transfers  
+opt/				All installed software applied by the preprocessing cluster  
+```
 ## Roles rundown:
 
 In short the roles provide the following features:
 
 ### Common
 
-Creates a ssh key. 
-Creates the directories config, log and .taca.
-Sets a custom bash_profile file and a custom paths.sh file (to initialize $PATH).
-"Installs" and starts supervisord
+Creates a ssh key.   
+Creates the directories config, log and .taca  
+Sets a custom bash_profile file and a custom paths.sh file (to initialize $PATH)  
+"Installs" and starts supervisord  
 
 ### Processing
 
-Creates sequencing archive directories.
-Copies processing unique supervisord configuration
-Starts cronjobs, which at the time of writing only concern TACA
+Creates sequencing archive directories  
+Copies processing unique supervisord configuration  
+Starts cronjobs, which at the time of writing only concern TACA  
 
 ### Nas
 
-Creates the .irods and nosync directories.
-Creates configurations for logrotate, lsyncd, supervisord, taca and irodsEnv
-Starts cronjobs, which at the time of writing concern `taca storage` and `logrotate`.
+Creates the .irods and nosync directories.  
+Creates configurations for logrotate, lsyncd, supervisord, taca and irodsEnv  
+Starts cronjobs, which at the time of writing concern `taca storage` and `logrotate`  
 
 ### Miniconda, bcl2fastq, taca, longranger, etc.
 
