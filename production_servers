@@ -17,3 +17,8 @@
 #preproc1.scilifelab.se	timing=2
 #preproc2.scilifelab.se	timing=3
 #preproc3.scilifelab.se	timing=4
+
+[processing:vars]
+couchdb_server=tools.scilifelab.se
+taca_email=genomics-bioinfo@scilifelab.se
+deployment_type=production

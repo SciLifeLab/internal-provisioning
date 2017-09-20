@@ -13,19 +13,5 @@ remote_port: 7777
 couchdb_user: production
 couchdb_pw: MGVmNjVkNzJlOTU1NmFh
 
-{% if deployment_type == "production" %}
 analysis_user: funk_903
 analysis_host: irma1.uppmax.uu.se
-
-couchdb_server: tools.scilifelab.se
-
-taca_email: genomics-bioinfo@scilifelab.se
-{% elif deployment_type == "staging" %}
-analysis_user: funk_903
-analysis_host: irma1.uppmax.uu.se
-
-couchdb_server: tools-dev.scilifelab.se
-
-taca_email: bcl_upgrade_test@scilifelab.se
-{% end %}
-

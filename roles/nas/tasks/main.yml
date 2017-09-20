@@ -27,11 +27,11 @@
 
 - name: Cronjob to cleanup
   cron: name="Trigger automatic cleanup" minute="0" hour="4"
-        job="0 0 * * * source ~/.bashrc && taca storage --days 3 cleanup --site nas  &> /dev/null"
+        job="0 0 * * * source ~/.bashrc && taca cleanup nas --days 3  &> /dev/null"
 
-- name: Cronjob to send finished runs to swestore
-  cron: name="Send HiSeq finished runs to Swestore" special_time=daily
-        job="0 1 * * * source ~/.bashrc && taca storage --days 10 archive --backend swestore --max-runs 4  &> /dev/null"
+#- name: Cronjob to send finished runs to swestore
+#  cron: name="Send HiSeq finished runs to Swestore" special_time=daily
+#        job="0 1 * * * source ~/.bashrc && taca storage --days 10 archive --backend swestore --max-runs 4  &> /dev/null"
 
 - name: Manually start supervisord process
   shell: "{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"

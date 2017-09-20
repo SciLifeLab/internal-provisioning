@@ -3,9 +3,14 @@
 #########################################
 
 #synced_preproc arg is necessary for each nas server
-[nas]
-b5.biotech.kth.se synced_preproc=b5.biotech.kth.se
+#[nas]
+#b5.biotech.kth.se synced_preproc=b5.biotech.kth.se
 
 #Timing is multiplied (by 10) to offset cronjobs
 [processing]
 b5.biotech.kth.se timing=2
+
+[processing:vars]
+couchdb_server=tools-dev.scilifelab.se
+taca_email=bcl_upgrade_test@scilifelab.se
+deployment_type=staging
