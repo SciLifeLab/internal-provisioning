@@ -33,13 +33,13 @@ cleanup:
     processing-server:
         days: 10
 statusdb:
-    url: tools.scilifelab.se
+    url: {{ couchdb_server }}
     username: {{ couchdb_user }}
     password: {{ couchdb_pw }}
     port: 5984
     xten_db: x_flowcells
 mail:
-    recipients: genomics-bioinfo@scilifelab.se
+    recipients: {{ taca_email }}
 
 # Section for the preprocessing of raw data
 analysis:
@@ -70,9 +70,9 @@ analysis:
                 - create-fastq-for-index
         samplesheets_dir: /srv/mfs/samplesheets/HiSeqX
         analysis_server:
-            host: {{ remote_host }}
+            host: {{ analysis_host }}
             port: 
-            user: {{ remote_user }}
+            user: {{ analysis_user }}
             sync:
                 data_archive: ""
                 include:
@@ -80,7 +80,9 @@ analysis:
                     - "*.htm"
                     - "*.html"
                     - "*.csv"
+{% if deployment_type == "production" -%}
                     - "*.fastq.gz"
+{%- endif %}
     HiSeq:
         QC:                                                                     
             max_number_undetermined_reads_simple_lane: 5000000                  
@@ -97,9 +99,9 @@ analysis:
                 - writing-threads: 3
         samplesheets_dir: /srv/mfs/samplesheets/
         analysis_server:
-            host: {{ remote_host }}
+            host: {{ analysis_host }}
             port: 
-            user: {{ remote_user }}
+            user: {{ analysis_user }}
             sync:
                 data_archive: ""
                 include:
@@ -107,7 +109,9 @@ analysis:
                     - "*.htm"
                     - "*.html"
                     - "*.csv"
+{% if deployment_type == "production" -%} 
                     - "*.fastq.gz"
+{%- endif %}
 
     MiSeq:
         QC:                                                                     
@@ -125,17 +129,19 @@ analysis:
                 - writing-threads: 3
         samplesheets_dir: /srv/mfs/samplesheets/
         analysis_server:
-            host: {{ remote_host }}
+            host: {{ analysis_host }}
             port: 
-            user: {{ remote_user }}
+            user: {{ analysis_user }}
             sync:
-                data_archive: /proj/a2015205/incoming/
+                data_archive: ""
                 include:
                     - "*.xml"
                     - "*.htm"
                     - "*.html"
                     - "*.csv"
+{% if deployment_type == "production" -%} 
                     - "*.fastq.gz"
+{%- endif %}
 
    # Directories where TACA will look for new data to be processed
     data_dirs:

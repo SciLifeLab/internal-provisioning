@@ -1,0 +1,12 @@
+---
+
+tasks:
+- name: "Assume staging deployment"
+- set_fact:
+    deployment_type: "staging"
+
+- name: "Establish if production deployment will be used"
+  set_fact:
+    deployment_type: "production"
+  when: inventory in "production"
+

@@ -9,6 +9,10 @@
   become: true
   become_user: "{{ user }}"
 
+  pre_tasks:
+    - include: tasks/pre-install.yml
+      tags: always
+
   roles:
     - {role: miniconda, tags: MiniConda }
     - {role: common, tags: Common-dependencies }

@@ -2,10 +2,10 @@
 # Inventory file for production servers #
 #########################################
 
-[processing]
-#Timing is multiplied (by 10) to offset cronjobs
-preproc3.scilifelab.se	timing=2
-
+#synced_preproc arg is necessary for each nas server
 [nas]
-#synced_preproc is necessary for each nas entry
-preproc3.scilifelab.se synced_preproc=preproc3.scilifelab.se
+b5.biotech.kth.se synced_preproc=b5.biotech.kth.se
+
+#Timing is multiplied (by 10) to offset cronjobs
+[processing]
+b5.biotech.kth.se timing=2

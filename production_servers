@@ -2,15 +2,18 @@
 # Inventory file for production servers #
 #########################################
 
-[nas]
-#synced_preproc is necessary for each INDIVIDUAL nas entry
-seq-nas-[1:3].scilifelab.se 
-nas-[6:10].scilifelab.se
-comicbookguy.scilifelab.se
+# ALL COMMENTED PER DEFAULT TO AVOID UNINTENTIONAL DEPLOYMENT
 
+#synced_preproc arg is necessary for each nas server
+[nas]
+#seq-nas-[1:3].scilifelab.se 
+#nas-[6:10].scilifelab.se
+#comicbookguy.scilifelab.se
+
+
+# Timing is multiplied (by 10) to offset cronjobs
 [processing]
-#Timing is multiplied (by 10) to offset cronjobs
-b5.biotech.kth.se	timing=1
-preproc1.scilifelab.se	timing=2
-preproc2.scilifelab.se	timing=3
-preproc3.scilifelab.se	timing=4
+#b5.biotech.kth.se	timing=1
+#preproc1.scilifelab.se	timing=2
+#preproc2.scilifelab.se	timing=3
+#preproc3.scilifelab.se	timing=4
