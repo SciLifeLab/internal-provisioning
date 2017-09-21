@@ -17,21 +17,18 @@
     - {template: 'logrotate.j2', dest_dir: '/home/{{ user }}/config', dest: 'logrotate.conf'}
     - {template: 'lsyncd.j2', dest_dir: '/home/{{ user }}/config', dest: 'lsyncd.conf'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
-    - {template: 'taca.yaml.j2', dest_dir: '/home/{{ user }}/.taca', dest: 'taca.yaml'}
     - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
 
-#TODO: Check the validity of these cronjobs
-- name: Cronjob to run logrotate
-  cron: name="Run logrotate hourly" special_time=hourly
-        job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"
+ name: Start NAS cronjobs
+  cron: minute={{ item.min }} day={{ item.day }} hour={{ item.hour }} job={{ item.job }} name={{ item.name }}
+  with_items:
+  - { day: "0", hour: "0", job: "source {{ paths_file }}  &> /dev/null && taca cleanup nas --hours 18  &> /dev/null", name: "Cronjob to cleanup"}
+  - { day: "0", hour: "1", job: "source {{ paths_file }}  &> /dev/null && taca backup encrypt  &> /dev/null", name: "Encrypt finished runes in nosync"}
+  - { day: "0/15", job: "source /srv/mfs/configs/scripts/check_lsync.sh &> /dev/null", name: "Check lsyncd status"}
 
-- name: Cronjob to cleanup
-  cron: name="Trigger automatic cleanup" minute="0" hour="4"
-        job="0 0 * * * source ~/.bashrc && taca cleanup nas --days 3  &> /dev/null"
-
-#- name: Cronjob to send finished runs to swestore
-#  cron: name="Send HiSeq finished runs to Swestore" special_time=daily
-#        job="0 1 * * * source ~/.bashrc && taca storage --days 10 archive --backend swestore --max-runs 4  &> /dev/null"
+#- name: Cronjob to run logrotate
+#  cron: name="Run logrotate hourly" special_time=hourly
+#        job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"
 
 - name: Manually start supervisord process
   shell: "{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"

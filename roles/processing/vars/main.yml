@@ -9,9 +9,3 @@ super_host:  irma1.uppmax.uu.se
 
 source_port: 7777
 remote_port: 7777
-
-couchdb_user: production
-couchdb_pw: MGVmNjVkNzJlOTU1NmFh
-
-analysis_user: funk_903
-analysis_host: irma1.uppmax.uu.se

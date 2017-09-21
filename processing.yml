@@ -10,9 +10,9 @@
   become_user: "{{ user }}"
 
   roles:
-    - {role: miniconda, tags: MiniConda }
-    - {role: common, tags: Common-dependencies }
-    - {role: processing, tags: Processing-specific }
-    - {role: bcl2fastq, tags: Bcl2Fastq }
+#    - {role: miniconda, tags: MiniConda }
+#    - {role: common, tags: Common-dependencies }
+#    - {role: processing, tags: Processing-specific }
+#    - {role: bcl2fastq, tags: Bcl2Fastq }
     - {role: taca, tags: TACA }
-    - {role: longranger, tags: longranger }
+#    - {role: longranger, tags: longranger }

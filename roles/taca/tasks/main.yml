@@ -1,4 +1,6 @@
-#TODO: Add paths and fix them
+---
+- include_vars: vars/couchdb_creds.yml
+
 - name: Fetch statusdb from GitHub
   git: repo="{{ statusdb_repo }}"
        dest="{{ statusdb_dest }}"
@@ -39,3 +41,7 @@
   shell: "{{ venv_bin }}/pip install ."
   args:
     chdir: "{{ taca_dest }}"
+
+#Want to refer to hosts (e.g. "processing") unsure how
+- name: Copy TACA configuration file
+  template: src='taca_{{ hosts_type }}.yaml.j2' dest='/home/{{ user }}/.taca/taca.yaml'

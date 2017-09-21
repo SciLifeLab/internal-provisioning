@@ -10,6 +10,8 @@
 #nas-[6:10].scilifelab.se
 #comicbookguy.scilifelab.se
 
+[nas:vars]
+hosts_type=nas
 
 # Timing is multiplied (by 10) to offset cronjobs
 [processing]
@@ -22,3 +24,4 @@
 couchdb_server=tools.scilifelab.se
 taca_email=genomics-bioinfo@scilifelab.se
 deployment_type=production
+hosts_type=processing
