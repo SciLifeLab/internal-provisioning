@@ -26,9 +26,9 @@
   - { day: "0", hour: "1", job: "source {{ paths_file }}  &> /dev/null && taca backup encrypt  &> /dev/null", name: "Encrypt finished runes in nosync"}
   - { day: "0/15", job: "source /srv/mfs/configs/scripts/check_lsync.sh &> /dev/null", name: "Check lsyncd status"}
 
-#- name: Cronjob to run logrotate
-#  cron: name="Run logrotate hourly" special_time=hourly
-#        job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"
+- name: Cronjob to run logrotate
+  cron: name="Run logrotate hourly" special_time=hourly
+        job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"
 
 - name: Manually start supervisord process
   shell: "{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"
