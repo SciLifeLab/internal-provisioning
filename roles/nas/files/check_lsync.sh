@@ -1,0 +1,1 @@
+lsync_pid=`ps -ef | grep lsync | grep hiseq.bioinfo`; if [[ -z $lsync_pid ]]; then echo "Lsync process stopped in $(hostname)" | mail -s "LSYNC is not running anymore" genomics-bioinfo@scilifelab.se; fi

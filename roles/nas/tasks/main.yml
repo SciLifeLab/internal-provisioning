@@ -19,13 +19,14 @@
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
     - {template: 'irodsEnv.j2', dest_dir: '/home/{{ user }}/.irods', dest: '.irodsEnv'}
 
- name: Start NAS cronjobs
-  cron: minute={{ item.min }} day={{ item.day }} hour={{ item.hour }} job={{ item.job }} name={{ item.name }}
+- name: Start NAS cronjobs
+  cron: minute={{ item.min }} hour={{ item.hour }} job={{ item.job }} name={{ item.name }}
   with_items:
-  - { day: "0", hour: "0", job: "source {{ paths_file }}  &> /dev/null && taca cleanup nas --hours 18  &> /dev/null", name: "Cronjob to cleanup"}
-  - { day: "0", hour: "1", job: "source {{ paths_file }}  &> /dev/null && taca backup encrypt  &> /dev/null", name: "Encrypt finished runes in nosync"}
-  - { day: "0/15", job: "source /srv/mfs/configs/scripts/check_lsync.sh &> /dev/null", name: "Check lsyncd status"}
+  - { min: "0", hour: "0", job: "source {{ paths_file }}  &> /dev/null && taca cleanup nas --hours 18  &> /dev/null", name: "Cronjob to cleanup"}
+  - { min: "0", hour: "1", job: "source {{ paths_file }}  &> /dev/null && taca backup encrypt  &> /dev/null", name: "Encrypt finished runes in nosync"}
+  - { min: "*/15", hour: "*", job: "source /srv/mfs/configs/scripts/check_lsync.sh &> /dev/null", name: "Check lsyncd status"}
 
+#Logrotate is assumed to be installed
 - name: Cronjob to run logrotate
   cron: name="Run logrotate hourly" special_time=hourly
         job="/usr/sbin/logrotate /home/{{ user }}/config/logrotate.conf -s /home/{{ user }}/config/logrotate.status"

@@ -1,15 +1,15 @@
-settings {
-       logfile    = "/home/{{ user }}/log/lsyncd.log",
-       statusFile = "/home/{{ user }}/log/lsyncd.status",
-       nodaemon   = true,
-}
-
-
--- Sync HiSeq raw data
-sync{default.rsyncssh, source="{{ data_dir }}/hiseq_data/Runs", host="{{ synced_preproc }}", targetdir="{{ data_dir }}/{{ dest_data }}", exclude=".AppleDouble", exclude={"nosync", "gls_events", "gls_events_hiseqx"}, delete=false}
-
--- Sync MiSeq raw data
-sync{default.rsyncssh, source="{{ data_dir }}/miseq_data", host="{{ synced_preproc }}", targetdir="{{ data_dir }}/miseq_data", exclude=".AppleDouble", exclude={"nosync", "gls_events", "gls_events_hiseqx"}, delete=false}
-
---- Sync Miseq metadata to MFS partition
-sync{default.rsync, source="{{ data_dir }}/miseq_data", target="/srv/mfs/miseq_data", exclude={".AppleDouble","/nosync", "gls_events", "gls_events_hiseqx", "*/Thumbnail_Images", "*/Logs", "*/Recipe", "*/Config", "*/PeriodicSaveRates", "*/Data"}, delete=false}
+#settings {
+#       logfile    = "/home/{{ user }}/log/lsyncd.log",
+#       statusFile = "/home/{{ user }}/log/lsyncd.status",
+#       nodaemon   = true,
+#}
+#
+#
+#-- Sync HiSeq raw data
+#sync{default.rsyncssh, source="{{ data_dir }}/hiseq_data/Runs", host="{{ synced_preproc }}", targetdir="{{ data_dir }}/{{ dest_data }}", exclude=".AppleDouble", exclude={"nosync", "gls_events", "gls_events_hiseqx"}, delete=false, rsync = {perms = true}}
+#
+#-- Sync MiSeq raw data
+#sync{default.rsyncssh, source="{{ data_dir }}/miseq_data", host="{{ synced_preproc }}", targetdir="{{ data_dir }}/miseq_data", exclude=".AppleDouble", exclude={"nosync", "gls_events", "gls_events_hiseqx"}, delete=false}
+#
+#--- Sync Miseq metadata to MFS partition
+#sync{default.rsync, source="{{ data_dir }}/miseq_data", target="/srv/mfs/miseq_data", exclude={".AppleDouble","/nosync", "gls_events", "gls_events_hiseqx", "*/Thumbnail_Images", "*/Logs", "*/Recipe", "*/Config", "*/PeriodicSaveRates", "*/Data"}, delete=false}

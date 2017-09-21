@@ -3,8 +3,8 @@
 #########################################
 
 #synced_preproc arg is necessary for each nas server
-#[nas]
-#b5.biotech.kth.se synced_preproc=b5.biotech.kth.se
+[nas]
+b5.biotech.kth.se synced_preproc=b5.biotech.kth.se
 
 [nas:vars]
 hosts_type=nas

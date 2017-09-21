@@ -29,6 +29,7 @@
   with_items:
     - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
 
+#Supervisord is assumed to be installed
 - name: Cronjob for supervisord
   cron: name="Start supervisord on reboot" special_time=reboot
         job="{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf &> /dev/null"

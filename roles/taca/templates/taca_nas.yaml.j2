@@ -3,10 +3,47 @@ log:
 
 storage:
     data_dirs:
-        - {{ data_dir }}/hiseq_data/Runs
+        - {{ data_dir }}/hiseq_data
         - {{ data_dir }}/miseq_data
     archive_dirs:
         - {{ data_dir }}/hiseq_data/Runs/nosync
         - {{ data_dir }}/miseq_data/nosync
     irods:
         irodsHome: /ssUppnexZone/proj/a2010002
+    check_demux: True
+
+cleanup:
+    processing-server:
+        days: 10
+
+# Section for backing up data
+backup:
+    archive_dirs:
+        hiseq: /home/hiseq.lab/Runs/nosync
+        miseq: /home/miseq.lab/nosync
+    data_dirs:
+        hiseq: /home/hiseq.lab/Runs
+        miseq: /home/miseq.lab
+    keys_path: /home/hiseq.bioinfo/run_keys
+    gpg_receiver: Senthilkumar
+    check_demux: True
+
+# Section for statusDB credentials and server info
+statusdb:
+    url: {{ couchdb_server }}
+    username: {{ couchdb_user }}
+    password: {{ couchdb_pw }}
+    port: 5984
+    xten_db: x_flowcells
+
+# Section for mail list
+mail:
+    recipients: genomics-bioinfo@scilifelab.se
+
+# Section not really required for NAS servers
+# but just for programatic requirement by TACA
+bcl2fastq:
+    options:
+        -
+analysis_server:
+samplesheets_dir:
