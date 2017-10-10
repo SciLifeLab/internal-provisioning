@@ -1,0 +1,35 @@
+---
+
+# Commented code is for 2.17 version
+
+- name: Download bcl2fastq
+  get_url:
+    url="{{ bcl2fastq_url }}/{{ bcl2fastq_zip }}.zip"
+    dest="/tmp/"
+    #url="{{ bcl2fastq_url }}/{{ bcl2fastq_package }}.rpm"
+
+- name: Unzip bcl2fastq package
+  unarchive:
+    src: "/tmp/{{ bcl2fastq_zip }}.zip"
+    dest: "/tmp/"
+    copy: no
+
+- name: Extract bcl2fastq RPM
+  shell: rpm2cpio "{{ bcl2fastq_rpm }}.rpm" | cpio -idmv
+  args:  
+    chdir: "/tmp/"
+
+- name: Move RPM subset to Install directory
+  command: mv "/tmp/usr/local/" "{{ bcl2fastq_install_dir }}" removes="/tmp/usr/local/" creates="{{ bcl2fastq_install_dir }}"
+
+- name: Add bcl2fastq to paths_file
+  lineinfile: dest={{ paths_file }}
+              line="export PATH={{ bcl2fastq_install_dir }}/bin:$PATH"
+              insertbefore=BOF
+              backup=no
+              create=yes
+
+- name: Unpack 10X config file
+  copy:
+    src: Chromium_10X_indexes.txt
+    dest: /home/hiseq.bioinfo/config/Chromium_10X_indexes.txt

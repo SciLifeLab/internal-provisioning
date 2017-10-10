@@ -3,5 +3,5 @@ logfile=/home/{{ user }}/log/supervisord.log
 pidfile=/home/{{ user }}/log/supervisord.pid
 
 [program:ssh]
-command=/usr/bin/ssh {{ remote_user }}@{{ remote_host }} -L {{ source_port }}:{{ remote_host }}:{{ remote_port }} -N
+command=/usr/bin/ssh {{ super_user }}@{{ super_host }} -L {{ source_port }}:{{ analysis_host }}:{{ remote_port }} -N
 autorestart=true

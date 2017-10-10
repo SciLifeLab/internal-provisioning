@@ -1,0 +1,17 @@
+statusdb_repo: "https://github.com/SciLifeLab/statusdb.git"
+statusdb_dest: "{{ sw_path }}/statusdb"
+statusdb_version: ca2a3faea82a10359c70f7a7697db499b5c82b17
+
+flowcell_parser_repo: "https://github.com/SciLifeLab/flowcell_parser.git"
+flowcell_parser_dest: "{{ sw_path }}/flowcell_parser"
+flowcell_parser_version: c046fbe0b71eb7aa9297d427b3e06cee4efdd5b3
+
+taca_repo: "https://github.com/SciLifeLab/TACA.git"
+taca_dest: "{{ sw_path }}/TACA"
+taca_version: d083ecff41c1c7b422cb23541d82c0001b556dde
+
+#couchdb_user: production
+#couchdb_pw: MGVmNjVkNzJlOTU1NmFh
+
+analysis_user: funk_903
+analysis_host: irma1.uppmax.uu.se

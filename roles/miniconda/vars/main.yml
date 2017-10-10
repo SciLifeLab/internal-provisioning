@@ -3,11 +3,4 @@
 
 miniconda_installer:
   url: 'http://repo.continuum.io/miniconda'
-  file: 'Miniconda3-3.7.0-Linux-x86_64.sh'
-
-miniconda_path: '~/.miniconda'
-
-miniconda_environments:
-  - name: master
-    python_version: 2.7
-    pkgs: 'pip ipython'
+  file: 'Miniconda2-4.0.5-Linux-x86_64.sh'

@@ -1,12 +1,13 @@
 ---
-# tasks file for miniconda
+# Tasks file for miniconda
+# Tasks are only ran if no prior installation of miniconda exists
 
 - name: Download miniconda installer
+  register: miniconda_downloaded
   get_url:
     url={{ miniconda_installer.url }}/{{ miniconda_installer.file }}
     dest=/tmp/{{ miniconda_installer.file }}
     mode=0755
-  register: miniconda_downloaded
 
 - name: Install miniconda
   command: '/tmp/{{ miniconda_installer.file }} -b -p {{ miniconda_path }} creates={{ miniconda_path }}'
@@ -17,9 +18,16 @@
   command: '{{ miniconda_path }}/bin/conda create --yes -n {{ item.name }} python={{ item.python_version }} creates={{ miniconda_path }}/envs/{{ item.name }}'
   when: miniconda_installed | success
   register: miniconda_venv_created
-  with_items: miniconda_environments
+  with_items: '{{ miniconda_environments }}'
 
-- name: update miniconda environment packages
+- name: Update miniconda environment packages
   command: '{{ miniconda_path }}/bin/conda install --yes -n {{ item.name }} {{ item.pkgs }}'
   when: miniconda_venv_created | success
-  with_items: miniconda_environments
+  with_items: '{{ miniconda_environments }}'
+
+- name: Add miniconda to paths_file
+  lineinfile: dest={{ paths_file }}
+              line="export PATH=/home/{{ user }}/.miniconda/bin:$PATH"
+              insertbefore=BOF
+              backup=no
+              create=yes

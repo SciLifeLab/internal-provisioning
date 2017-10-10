@@ -1,0 +1,9 @@
+---
+# Suffix is removed for good reason
+
+bcl2fastq_ver: "v2.19.1.403"
+bcl2fastq_zip: "bcl2fastq2-v2-19-1-linux"
+bcl2fastq_rpm: "bcl2fastq2-{{ bcl2fastq_ver }}-Linux-x86_64"
+bcl2fastq_install_dir: "{{ sw_path }}/bcl2fastq_{{ bcl2fastq_ver }}"
+bcl2fastq_url: "https://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/"
+

@@ -1,0 +1,17 @@
+# Variables for the group staging
+user: hiseq.bioinfo
+user_lims: glsai
+data_dir: /srv/illumina
+
+# Cruddy code ahoy!
+miniconda_path: '~/.miniconda'
+main_venv: master
+sw_path: "/home/{{ user }}/opt"
+paths_file: "/home/{{ user }}/config/paths.sh"
+
+miniconda_environments:
+  - name: master
+    python_version: 2.7
+    pkgs: 'pip ipython'
+
+venv_bin: "{{ miniconda_path }}/envs/{{ main_venv }}/bin/"

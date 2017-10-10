@@ -1,0 +1,54 @@
+# This entire playbook is really dirty.
+# But ansible downright refuses anything graceful.
+---
+
+- name: Install fetcher script dependencies
+  shell: "{{ venv_bin }}/pip install requests bs4"
+
+- name: Copy fetcher script to target machine
+  copy: src="files/fetchLRdownload.py" dest="/tmp/fetchLRdownload.py"
+
+- name: Fetch LongRanger download
+  shell: "{{ venv_bin }}/python -W ignore /tmp/fetchLRdownload.py"
+  register: LR_url
+
+- name: Download LongRanger
+  get_url: validate_certs=no url="{{ LR_url.stdout }}" dest="/tmp/longranger.tar.gz" mode=ug+rwx
+
+- name: Catch LongRanger output directory name
+  shell: tar tf /tmp/longranger.tar.gz | head -1 | sed -e 's/\/.*//'
+  changed_when: false
+  register: LR_dir
+
+- name: Unpack longranger
+  unarchive:
+    src: "/tmp/longranger.tar.gz"
+    dest: "/tmp/"
+    copy: no
+
+- name: Move longranger
+  command: "mv /tmp/{{ LR_dir.stdout }} {{ sw_path }} creates={{ sw_path }}/{{ LR_dir.stdout }} removes=/tmp/{{ LR_dir.stdout }}"
+
+- name: Download hg19 reference
+  get_url: url="{{ hg19_url }}" dest=/tmp/hg19.tar.gz mode=ug+rwx
+
+- name: Catch hg19 output directory name
+  shell: tar tf /tmp/hg19.tar.gz | head -1 | sed -e 's/\/.*//'
+  changed_when: false
+  register: hg19_dir
+
+- name: Unpack hg19 reference
+  unarchive:
+    src: "/tmp/hg19.tar.gz"
+    dest: "/tmp/"
+    copy: no
+
+- name: Move hg19
+  command: "mv /tmp/{{ hg19_dir.stdout }} {{ sw_path }} creates={{ sw_path }}/{{ hg19_dir.stdout }} removes=/tmp/{{ hg19_dir.stdout }}"
+
+- name: Add longranger to paths_file
+  lineinfile: dest={{ paths_file }}
+              line="export PATH=/opt/{{ LR_dir.stdout }}:$PATH"
+              insertbefore=BOF
+              backup=no
+              create=yes

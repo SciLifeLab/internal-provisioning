@@ -1,9 +1,0 @@
-#########################################
-# Inventory file for production servers #
-#########################################
-
-[lims]
-genologics-stage.scilifelab.se
-
-[web]
-tools-dev.scilifelab.se

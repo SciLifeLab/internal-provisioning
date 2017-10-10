@@ -1,0 +1,47 @@
+---
+- include_vars: vars/couchdb_creds.yml
+
+- name: Fetch statusdb from GitHub
+  git: repo="{{ statusdb_repo }}"
+       dest="{{ statusdb_dest }}"
+       version="{{ statusdb_version }}"
+       force=yes
+
+- name: Install statusdb requirements
+  shell: "{{ venv_bin }}/pip install -r {{ statusdb_dest }}/requirements.txt"
+
+- name: Install statusDB
+  shell: "{{ venv_bin }}/pip install ."
+  args:
+    chdir: "{{ statusdb_dest }}"
+
+- name: Fetch flowcell_parser from GitHub
+  git: repo="{{ flowcell_parser_repo }}"
+       dest="{{ flowcell_parser_dest }}"
+       version="{{ flowcell_parser_version }}"
+       force=yes
+
+- name: Install flowcell_parser requirements
+  shell: "{{ venv_bin }}/pip install -r {{ flowcell_parser_dest }}/requirements.txt"
+
+- name: Install flowcell_parser
+  shell: "{{ venv_bin }}/pip install ."
+  args:
+    chdir: "{{ flowcell_parser_dest }}"
+
+- name: Fetch TACA from GitHub
+  git: repo="{{ taca_repo }}"
+       dest="{{ taca_dest }}"
+       force=yes
+
+- name: Install TACA requirements
+  shell: "{{ venv_bin }}/pip install -r {{ taca_dest }}/requirements.txt"
+
+- name: Install TACA
+  shell: "{{ venv_bin }}/pip install ."
+  args:
+    chdir: "{{ taca_dest }}"
+
+#Want to refer to hosts (e.g. "processing") unsure how
+- name: Copy TACA configuration file
+  template: src='taca_{{ hosts_type }}.yaml.j2' dest='/home/{{ user }}/.taca/taca.yaml'

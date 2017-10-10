@@ -3,47 +3,32 @@
 # Tasks file for the role Processing Server #
 #############################################
 
-- name: Create ssh-key if it does not exist yet
-  user: name={{ user }} generate_ssh_key=yes ssh_key_bits=2048
-
-
-- name: Create necessary directories
-  file: path={{ item.dir }} state=directory
-  with_items:
-    - {dir: '/home/{{ user }}/opt'}
-    - {dir: '/home/{{ user }}/config'}
-    - {dir: '/home/{{ user }}/log'}
-    - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
-    - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
-
-- name: Download bcl2fastq
-  get_url: 
-    url={{ bcl2fastq_url }}
-    dest=/tmp/{{ bcl2fastq_package }}
-
-- name: Unpack {{ bcl2fastq_package }}
-  shell: tar xzf {{ bcl2fastq_package }}
-  args:
-    chdir: /tmp
-
-- name: Create build directory for bcl2fastq
-  file: path={{ bcl2fastq_build_dir}} state=directory
-
-- name: Configure bcl2fastq
-  shell: /tmp/bcl2fastq/src/configure --prefix={{ bcl2fastq_install_dir }}
-  args:
-    chdir: '{{ bcl2fastq_build_dir }}'
-
-- name: Make and install bcl2fastq
-  shell: make && make install
-  args:
-    chdir: '{{ bcl2fastq_build_dir }}'
+#- name: Create necessary directories
+#  file: path={{ item.dir }} state=directory 
+#  with_items:
+#   - {dir: '{{ data_dir }}/HiSeq_X_data/nosync/archived'}
+#   - {dir: '{{ data_dir }}/miseq_data/nosync/archived'}
 
 - name: Copy configuration files for different services
   template: src={{ item.template }} dest={{ item.dest_dir }}/{{ item.dest }}
   with_items:
-    - {template: 'bash_profile.j2', dest_dir: '/home/{{ user }}', dest: '.bash_profile'}
     - {template: 'supervisord.j2', dest_dir: '/home/{{ user }}/config', dest: 'supervisord.conf'}
 
-- name: Start supervisord process
-  shell: /usr/bin/supervisord -c /home/{{ user }}/config/supervisord.conf
+#Sets host unique start times.
+- set_fact:
+    minutes: "{{ 10 * timing }}"
+
+# Inert the jobs when pushing to staging
+- name: Start taca cronjobs
+  cron: minute={{ item.min }} hour={{ item.hour }} job="{{ item.job }}" name={{ item.name }}
+  with_items:
+  - { min: "{{ minutes }}", hour: "*", job: "source {{ paths_file }}  &> /dev/null && taca analysis demultiplex --force  &> /dev/null", name: "Demux & HPC transfer"}
+  - { min: "{{ minutes }}", hour: "*", job: "source {{ paths_file }} &> /dev/null  && taca bioinfo_deliveries update  &> /dev/null", name: "G-Stats delivery page updates"}
+  - { min: "{{ minutes }}", hour: "10", job: "source {{ paths_file }} &> /dev/null && taca server_status cronjobs  &> /dev/null", name: "G-Stats cronjob tracker updates"}
+  - { min: "{{ minutes }}", hour: "6,16", job: "source {{ paths_file }} &> /dev/null && taca server_status nases --statusdb &> /dev/null", name: "NAS disc usage"}
+  when: 
+    - deployment_type == "production"
+# Last job should be inert for anything but preproc1(or 3?)
+
+- name: Manually start supervisord process
+  shell: "{{ venv_bin }}/supervisord -c /home/{{ user }}/config/supervisord.conf"
