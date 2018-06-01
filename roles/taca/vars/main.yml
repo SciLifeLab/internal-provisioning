@@ -10,8 +10,5 @@ taca_repo: "https://github.com/SciLifeLab/TACA.git"
 taca_dest: "{{ sw_path }}/TACA"
 taca_version: d083ecff41c1c7b422cb23541d82c0001b556dde
 
-#couchdb_user: production
-#couchdb_pw: MGVmNjVkNzJlOTU1NmFh
-
 analysis_user: funk_903
 analysis_host: irma1.uppmax.uu.se
